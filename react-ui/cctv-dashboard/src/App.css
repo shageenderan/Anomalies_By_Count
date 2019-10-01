@@ -1,0 +1,7 @@
+.inline-block-child {
+  display: inline-block;
+}
+
+.App{
+  display: flex
+}
