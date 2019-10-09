@@ -28,7 +28,7 @@ function iconStyles() {
 
 function SideBar(props: {}) {
   const icons = makeStyles(iconStyles)();
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
 
   const handleListItemClick = (event: any, index: number) => {
     setSelectedIndex(index);

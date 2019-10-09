@@ -5,13 +5,14 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 // Components
 import SideBar from './components/SideBar/Sidebar';
 
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
+import Cameras from './components/Cameras/Cameras';
 
 
 function Home(props: {}) {
   return (
     <div style={{ "color": "white" }}>
-      <h1>Cameras here</h1>
+      <Cameras></Cameras>
     </div>
   )
 }
@@ -40,8 +41,6 @@ function Playback(props: {}) {
   )
 }
 
-const drawerWidth = 240;
-
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
@@ -59,22 +58,14 @@ const App: React.FC = () => {
         <div className={classes.root}>
           <SideBar />
           <Route exact path="/" component={Home} />
-          
-          <div className={classes.content} >
-            <Route path="/cameras" component={Home} />
-          </div>
 
-          <div className={classes.content} >
-            <Route path="/stats" component={Stats} />
-          </div>
+          <Route path="/cameras" component={Home} />
 
-          <div className={classes.content} >
-            <Route path="/analysis" component={Analysis} />
-          </div>
+          <Route path="/stats" component={Stats} />
 
-          <div className={classes.content} >
-            <Route path="/playback" component={Playback} />
-          </div>
+          <Route path="/analysis" component={Analysis} />
+
+          <Route path="/playback" component={Playback} />
         </div>
       </Router>
     </div>
