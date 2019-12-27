@@ -36,9 +36,11 @@ function Analysis(props: {}) {
         <div className="topbar">
             Camera
         </div>
-        
+
+        <div><LineChart/></div>
+
         <div className="selectionbar"> 
-            <div className ="dropdown">
+        <div className ="dropdown">
                 Time Selection
                 <Select 
                     className="timeselection"
@@ -55,7 +57,6 @@ function Analysis(props: {}) {
                 />
             </div>
         </div>
-        <LineChart />
     </div>
 
   )

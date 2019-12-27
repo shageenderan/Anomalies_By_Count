@@ -9,6 +9,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import Cameras from './components/Cameras/Cameras';
 import Analysis from './components/Analysis/Analysis';
 
+// Icons
+import VideocamIcon from '@material-ui/icons/Videocam';
+import TimelineIcon from '@material-ui/icons/Timeline';
+import FindInPageIcon from '@material-ui/icons/FindInPage';
+import Replay30Icon from '@material-ui/icons/Replay30';
+
 
 function Home(props: {}) {
   return (
@@ -51,13 +57,27 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+
+const items = [
+  { name: "cameras", label: "Cameras", Icon: VideocamIcon, path:"/cameras"},
+  { name: "stats", label: "Live stats", Icon: TimelineIcon, path:"/stats"},
+  { name: "analysis", label: "Analysis", Icon: FindInPageIcon,
+    items: [
+      { name: "camera1", label: "Camera 1", Icon: VideocamIcon, path:"/analysis"},
+      { name: "camera2", label: "Camera 2", Icon: VideocamIcon, path:"/analysis"},
+      { name: "camera3", label: "Camera 3", Icon: VideocamIcon, path:"/analysis"},
+      { name: "camera4", label: "Camera 4", Icon: VideocamIcon, path:"/analysis"},
+    ]},
+  { name: "playback", label: "Playback", Icon: Replay30Icon, path:"/playback"},
+];
+
 const App: React.FC = () => {
   const classes = useStyles();
   return (
     <div className="App">
       <Router>
         <div className={classes.root}>
-          <SideBar />
+          <SideBar items={items}/>
           <Route exact path="/" component={Home} />
 
           <Route path="/cameras" component={Home} />

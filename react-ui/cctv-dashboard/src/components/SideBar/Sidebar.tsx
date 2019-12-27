@@ -1,93 +1,101 @@
 import React from 'react';
 import './Sidebar.css'
-import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-
-// Icons
-import VideocamIcon from '@material-ui/icons/Videocam';
-import TimelineIcon from '@material-ui/icons/Timeline';
-import FindInPageIcon from '@material-ui/icons/FindInPage';
-import Replay30Icon from '@material-ui/icons/Replay30';
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import ExpandLessIcon from "@material-ui/icons/ExpandLess";
+import Collapse from "@material-ui/core/Collapse";
+import Divider from "@material-ui/core/Divider";
 
 // Router
 import { Link } from "react-router-dom";
 
-function iconStyles() {
-  return {
-    defaultIcon: {
-      color: 'white',
-    },
-    errorIcon: {
-      color: 'red',
-    },
+
+function SidebarItem({ depthStep = 10, depth = 0, item, ...rest }) {
+  const [collapsed, setCollapsed] = React.useState(true);
+  const { label, items, Icon, path, onClick: onClickProp } = item;
+
+  function toggleCollapse() {
+    setCollapsed(prevValue => !prevValue);
   }
+
+  function onClick(e) {
+    if (Array.isArray(items)) {
+      toggleCollapse();
+    }
+    if (onClickProp) {
+      onClickProp(e, item);
+    }
+  }
+
+  let expandIcon;
+
+  if (Array.isArray(items) && items.length) {
+    expandIcon = !collapsed ? (
+      <ExpandLessIcon
+        className={
+          "sidebar-item-expand-arrow" + " sidebar-item-expand-arrow-expanded"
+        }
+      />
+    ) : (
+      <ExpandMoreIcon className="sidebar-item-expand-arrow" />
+    );
+  }
+  
+  return (
+    <>
+      <ListItem
+        button
+        component={Link}
+        to={path}
+        className="sidebar-item"
+        onClick={onClick}
+        dense
+        {...rest}
+      >
+        <div
+          style={{ paddingLeft: depth * depthStep }}
+          className="sidebar-item-content"
+        >
+          {Icon && <Icon className="sidebar-item-icon" fontSize="large" />}
+          <div className="sidebar-item-text">{label}</div>
+        </div>
+        {expandIcon}
+      </ListItem>
+      <Collapse in={!collapsed} timeout="auto" unmountOnExit>
+        {Array.isArray(items) ? (
+          <List disablePadding dense>
+            {items.map((subItem, index) => (
+              <React.Fragment key={`${subItem.name}${index}`}>
+                {subItem === "divider" ? (
+                  <Divider style={{ margin: "6px 0" }} />
+                ) : (
+                  <SidebarItem
+                    depth={depth + 1}
+                    depthStep={depthStep}
+                    item={subItem}
+                  />
+                )}
+              </React.Fragment>
+            ))}
+          </List>
+        ) : null}
+      </Collapse>
+    </>
+  );
 }
 
-function SideBar(props: {}) {
-  const icons = makeStyles(iconStyles)();
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
-
-  const handleListItemClick = (event: any, index: number) => {
-    setSelectedIndex(index);
-  };
-
+function SideBar({ items }) {
   return (
     <div className="sidebar">
-      <List component="nav" aria-label="main mailbox folders">
-        <ListItem
-          button
-          component={Link}
-          to={"/cameras"}
-          selected={selectedIndex === 0}
-          onClick={(event: any) => handleListItemClick(event, 0)}
-        >
-          <ListItemIcon>
-            <VideocamIcon className={icons.defaultIcon} />
-          </ListItemIcon>
-          <ListItemText primary="Cameras" className="fontColor" />
-        </ListItem>
-
-        <ListItem
-          button
-          component={Link}
-          to={"/stats"}
-          selected={selectedIndex === 1}
-          onClick={(event: any) => handleListItemClick(event, 1)}
-        >
-          <ListItemIcon>
-            <TimelineIcon className={icons.defaultIcon} />
-          </ListItemIcon>
-          <ListItemText primary="Live stats" className="fontColor" />
-        </ListItem>
-
-        <ListItem
-          button
-          component={Link}
-          to={"/analysis"}
-          selected={selectedIndex === 2}
-          onClick={(event: any) => handleListItemClick(event, 2)}
-        >
-          <ListItemIcon>
-            <FindInPageIcon className={icons.defaultIcon} />
-          </ListItemIcon>
-          <ListItemText primary="Analysis" className="fontColor" />
-        </ListItem>
-
-        <ListItem
-          button
-          component={Link}
-          to={"/playback"}
-          selected={selectedIndex === 3}
-          onClick={(event: any) => handleListItemClick(event, 3)}
-        >
-          <ListItemIcon>
-            <Replay30Icon className={icons.defaultIcon} />
-          </ListItemIcon>
-          <ListItemText primary="Playback" className="fontColor" />
-        </ListItem>
+      <List disablePadding dense>
+        {items.map((sidebarItem) => (
+          <SidebarItem
+          depthStep={10}
+          depth= {0}
+          item={sidebarItem}
+          />
+        ))}
       </List>
     </div>
   )

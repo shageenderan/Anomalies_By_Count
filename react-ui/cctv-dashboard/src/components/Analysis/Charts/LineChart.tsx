@@ -45,13 +45,10 @@ class LineChart extends React.Component {
             <Chart
               options={options}
               series={[
-                {
-                  data: [0,53,75,24,70,321,43,234,26, 0]
-                }
+                { data: [0,53,75,24,70,321,43,234,26, 0]}
               ]}
               type="line"
               width="70%"
-              
             />
           </div>
     );
