@@ -7,6 +7,7 @@ import SideBar from './components/SideBar/Sidebar';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Cameras from './components/Cameras/Cameras';
+import Analysis from './components/Analysis/Analysis';
 
 
 function Home(props: {}) {
@@ -25,10 +26,10 @@ function Stats(props: {}) {
   )
 }
 
-function Analysis(props: {}) {
+function AnalysisPage(props: {}) {
   return (
     <div style={{ "color": "white" }}>
-      <h1>Analysis here</h1>
+      <Analysis></Analysis>
     </div>
   )
 }
@@ -63,7 +64,7 @@ const App: React.FC = () => {
 
           <Route path="/stats" component={Stats} />
 
-          <Route path="/analysis" component={Analysis} />
+          <Route path="/analysis" component={AnalysisPage} />
 
           <Route path="/playback" component={Playback} />
         </div>
