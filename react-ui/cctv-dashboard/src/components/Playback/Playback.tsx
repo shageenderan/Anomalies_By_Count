@@ -1,9 +1,8 @@
 import React from "react";
 import ReactPlayer from "react-player";
-import "./Cameras.css";
-import { JSXElement } from "@babel/types";
+import "./Playback.css";
 
-function Cameras(props: {}) {
+function Playback(props: {}) {
   return (
     <div className="box">
       <div style={{ display: "flex" }}>
@@ -46,4 +45,4 @@ function Cameras(props: {}) {
   );
 }
 
-export default Cameras;
+export default Playback;
