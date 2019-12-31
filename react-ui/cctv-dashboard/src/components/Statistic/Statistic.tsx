@@ -62,7 +62,7 @@ class Statistic extends Component {
     }
 
     return (
-      <div className="container">
+      <div className="container-truex">
         <div className="row">{currentCharts}</div>
       </div>
     );

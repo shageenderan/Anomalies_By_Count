@@ -1,5 +1,5 @@
 .box {
-  height: 100vh;
+  height: 120vh;
   width: 147vh;
   padding-left: 33px;
   background-color: rgb(248, 225, 205);
@@ -13,10 +13,10 @@
 .selectionbar {
   width: 27vh;
   background-color: black;
-  height: 93.2vh;
+  height: 113vh;
   right: -0;
   position: absolute;
-  margin-top: -70.2vh;
+  margin-top: -73.2vh;
 }
 .dropdown {
   margin-left: 10px;

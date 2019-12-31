@@ -1,5 +1,18 @@
 .box {
-  height: 100vh;
+  height: 120vh;
   width: 179.5vh;
   padding-left: 33px;
+}
+.camera-box-part {
+  background: rgb(248, 225, 205);
+  border-radius: 10px;
+  border-style: solid;
+  border-color: black;
+  padding: 6px 1px;
+  margin: 0px 0px;
+  width: 80vh;
+  height: 58vh;
+}
+.camera-box-part:hover {
+  background: #4183d7;
 }

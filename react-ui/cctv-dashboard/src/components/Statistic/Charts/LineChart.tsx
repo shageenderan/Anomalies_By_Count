@@ -58,7 +58,7 @@ function createChart({ timeData, peopleCount, click, show, id, text }) {
   if (!show) return null;
 
   return (
-    <div className="col-sm-6 ">
+    <div className="col-md-6 ">
       <a href="#" />
       <div className="box-part text-center " onClick={() => click(id)}>
         <div className="title"></div>
