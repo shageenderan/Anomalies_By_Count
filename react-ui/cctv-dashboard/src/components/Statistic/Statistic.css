@@ -3,3 +3,8 @@
   width: 147vh;
   padding-left: 33px;
 }
+.linechart {
+  border-color: black;
+  border-width: 3px;
+  border-style: solid;
+}

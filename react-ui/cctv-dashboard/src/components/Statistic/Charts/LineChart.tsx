@@ -1,8 +1,11 @@
 import React from "react";
 import Chart from "react-apexcharts";
 import "./LineChart.css";
+import Button from "react-bootstrap/Button";
 
-class LineChart extends React.Component {
+type MyState = { timeData: number[]; peopleCount: number[] };
+
+class LineChart extends React.Component<MyState, {}> {
   render() {
     var options = {
       chart: {
@@ -25,7 +28,7 @@ class LineChart extends React.Component {
         }
       },
       xaxis: {
-        categories: [1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0],
+        categories: this.props.timeData,
         labels: {
           style: {
             fontSize: "16px"
@@ -43,13 +46,31 @@ class LineChart extends React.Component {
       <div className="chart">
         <Chart
           options={options}
-          series={[{ data: [0, 53, 75, 24, 70, 321, 43, 234, 26, 0] }]}
+          series={[{ data: this.props.peopleCount }]}
           type="line"
-          width="70%"
         />
       </div>
     );
   }
 }
 
-export default LineChart;
+function createChart({ timeData, peopleCount, click, show, id, text }) {
+  if (!show) return null;
+
+  return (
+    <div className="col-sm-6 ">
+      <a href="#" />
+      <div className="box-part text-center " onClick={() => click(id)}>
+        <div className="title"></div>
+        <Button className="text" variant="dark" size="lg">
+          {text}
+        </Button>
+        <div className="chart">
+          <LineChart timeData={timeData} peopleCount={peopleCount} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default createChart;

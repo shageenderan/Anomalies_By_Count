@@ -45,7 +45,7 @@ function Analysis() {
 
       <div className="selectionbar">
         <div className="dropdown">
-          Time Selection
+          <label>Time Selection</label>
           <Select
             className="timeselection"
             options={timeOption}
@@ -53,7 +53,7 @@ function Analysis() {
           />
         </div>
         <div className="dropdown">
-          Chart Type
+          <label>Chart Type </label>
           <Select
             className="charttype"
             options={chartOption}
