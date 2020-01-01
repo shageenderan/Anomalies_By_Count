@@ -3,8 +3,7 @@ import "./Analysis.css";
 import Select from "react-dropdown-select";
 import LineChart from "./Charts/AnalysisChart";
 import Button from "react-bootstrap/Button";
-import Dropdown from "react-dropdown";
-import { LinearProgress } from "@material-ui/core";
+
 
 const timeOption = [
   {

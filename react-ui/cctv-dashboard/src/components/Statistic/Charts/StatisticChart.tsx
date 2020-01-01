@@ -2,7 +2,6 @@ import React from "react";
 import Chart from "react-apexcharts";
 import "./StatisticChart.css";
 import Button from "react-bootstrap/Button";
-import { createGenerateClassName } from "@material-ui/styles";
 
 type MyState = { timeData: number[]; peopleCount: number[] };
 

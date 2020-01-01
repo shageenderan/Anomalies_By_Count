@@ -5,15 +5,15 @@
   background-color: rgb(248, 225, 205);
 }
 .topbar {
-  width: 148vh;
-  height: 8vh;
+  width: 178vh;
+  height: 9vh;
   background-color: black;
 }
 .selectionbar {
   width: 27vh;
   background-color: black;
-  height: 114vh;
-  right: -0;
+  height: 112vh;
+  right: 0vh;
   position: absolute;
 }
 .dropdown {
@@ -36,7 +36,7 @@
 }
 .analysis-box-part {
   background: rgb(248, 225, 205);
-  width: 123vh;
+  width: 153vh;
   height: 112vh;
   position: absolute;
 }
