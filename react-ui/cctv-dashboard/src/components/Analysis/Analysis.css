@@ -5,18 +5,16 @@
   background-color: rgb(248, 225, 205);
 }
 .topbar {
-  width: 148.5vh;
+  width: 148vh;
   height: 8vh;
   background-color: black;
-  margin-left: -5vh;
 }
 .selectionbar {
   width: 27vh;
   background-color: black;
-  height: 113vh;
+  height: 114vh;
   right: -0;
   position: absolute;
-  margin-top: -73.2vh;
 }
 .dropdown {
   margin-left: 10px;
@@ -35,4 +33,10 @@
 .button {
   margin-left: 15px;
   margin-top: 10px;
+}
+.analysis-box-part {
+  background: rgb(248, 225, 205);
+  width: 123vh;
+  height: 112vh;
+  position: absolute;
 }

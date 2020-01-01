@@ -1,7 +1,8 @@
 import React from "react";
 import Chart from "react-apexcharts";
-import "./LineChart.css";
+import "./StatisticChart.css";
 import Button from "react-bootstrap/Button";
+import { createGenerateClassName } from "@material-ui/styles";
 
 type MyState = { timeData: number[]; peopleCount: number[] };
 
@@ -43,34 +44,38 @@ class LineChart extends React.Component<MyState, {}> {
     };
 
     return (
-      <div className="chart">
-        <Chart
-          options={options}
-          series={[{ data: this.props.peopleCount }]}
-          type="line"
-        />
-      </div>
+      <Chart
+        options={options}
+        series={[{ data: this.props.peopleCount }]}
+        type="line"
+      />
     );
   }
 }
 
-function createChart({ timeData, peopleCount, click, show, id, text }) {
+function createStatChart({
+  timeData,
+  peopleCount,
+  click,
+  show,
+  id,
+  text,
+  maximise
+}) {
   if (!show) return null;
 
+  let cName: string = maximise ? "maximise-box-part" : "statistic-box-part";
   return (
     <div className="col-md-6 ">
       <a href="#" />
-      <div className="box-part text-center " onClick={() => click(id)}>
-        <div className="title"></div>
+      <div className={cName + " text-center"} onClick={() => click(id)}>
         <Button className="text" variant="dark" size="lg">
           {text}
         </Button>
-        <div className="chart">
-          <LineChart timeData={timeData} peopleCount={peopleCount} />
-        </div>
+        <LineChart timeData={timeData} peopleCount={peopleCount} />
       </div>
     </div>
   );
 }
 
-export default createChart;
+export default createStatChart;

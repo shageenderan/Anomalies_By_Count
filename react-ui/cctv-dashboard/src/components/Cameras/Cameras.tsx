@@ -10,22 +10,26 @@ class Cameras extends Component {
       1: {
         show: true,
         label: "Camera 1",
-        url: "https://www.youtube.com/watch?v=1EiC9bvVGnk"
+        url: "https://www.youtube.com/watch?v=1EiC9bvVGnk",
+        maximise: false
       },
       2: {
         show: true,
         label: "Camera 2",
-        url: "https://www.youtube.com/watch?v=1EiC9bvVGnk"
+        url: "https://www.youtube.com/watch?v=1EiC9bvVGnk",
+        maximise: false
       },
       3: {
         show: true,
         label: "Camera 3",
-        url: "https://www.youtube.com/watch?v=1EiC9bvVGnk"
+        url: "https://www.youtube.com/watch?v=1EiC9bvVGnk",
+        maximise: false
       },
       4: {
         show: true,
         label: "Camera 4",
-        url: "https://www.youtube.com/watch?v=1EiC9bvVGnk"
+        url: "https://www.youtube.com/watch?v=1EiC9bvVGnk",
+        maximise: false
       }
     },
     showNav: false
@@ -37,6 +41,8 @@ class Cameras extends Component {
       if (key !== id) {
         players[key].show = !players[key].show;
         showNav = !players[key].show;
+      } else {
+        players[key].maximise = !players[key].maximise;
       }
     }
     this.setState({ players, showNav });
@@ -52,7 +58,8 @@ class Cameras extends Component {
           key,
           players[key].show,
           players[key].label,
-          this.click
+          this.click,
+          players[key].maximise
         )
       );
     }
@@ -65,18 +72,23 @@ class Cameras extends Component {
   }
 }
 
-function createCameras(url, id, show, label, click) {
+function createCameras(url, id, show, label, click, maximise) {
   if (!show) return null;
-
+  let cName: string = maximise ? "maximise-box-part" : "camera-box-part";
+  let playerHeight: string = maximise ? "800px" : " 350px";
   return (
     <div className="col-xl-6">
       <a href="#" />
-      <div className="camera-box-part text-center " onClick={() => click(id)}>
-        <div className="title"></div>
+      <div className={cName + " text-center"} onClick={() => click(id)}>
         <Button className="text" variant="dark" size="lg">
           {label}
         </Button>
-        <ReactPlayer url={url} playing={true} />
+        <ReactPlayer
+          width="100"
+          height={playerHeight}
+          url={url}
+          playing={true}
+        />
       </div>
     </div>
   );
