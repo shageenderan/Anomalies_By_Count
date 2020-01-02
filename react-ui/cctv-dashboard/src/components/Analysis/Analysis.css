@@ -13,7 +13,7 @@
   width: 27vh;
   background-color: black;
   height: 112vh;
-  right: 0vh;
+  right: -5vh;
   position: absolute;
 }
 .dropdown {
@@ -37,6 +37,6 @@
 .analysis-box-part {
   background: rgb(248, 225, 205);
   width: 153vh;
-  height: 112vh;
+  height: 111vh;
   position: absolute;
 }

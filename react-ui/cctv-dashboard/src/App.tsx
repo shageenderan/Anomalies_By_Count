@@ -8,7 +8,6 @@ import SideBar from "./components/SideBar/Sidebar";
 import { makeStyles } from "@material-ui/core/styles";
 import Cameras from "./components/Cameras/Cameras";
 import Analysis from "./components/Analysis/Analysis";
-import Playback from "./components/Playback/Playback";
 
 // Icons
 import VideocamIcon from "@material-ui/icons/Videocam";
@@ -37,14 +36,6 @@ function AnalysisPage(props: {}) {
   return (
     <div style={{ color: "white" }}>
       <Analysis></Analysis>
-    </div>
-  );
-}
-
-function PlaybackPage(props: {}) {
-  return (
-    <div style={{ color: "white" }}>
-      <Playback></Playback>
     </div>
   );
 }
@@ -91,37 +82,6 @@ const items = [
         path: "/analysis"
       }
     ]
-  },
-  {
-    name: "playback",
-    label: "Playback",
-    Icon: Replay30Icon,
-    items: [
-      {
-        name: "camera1",
-        label: "Camera 1",
-        Icon: VideocamIcon,
-        path: "/playback"
-      },
-      {
-        name: "camera2",
-        label: "Camera 2",
-        Icon: VideocamIcon,
-        path: "/playback"
-      },
-      {
-        name: "camera3",
-        label: "Camera 3",
-        Icon: VideocamIcon,
-        path: "/playback"
-      },
-      {
-        name: "camera4",
-        label: "Camera 4",
-        Icon: VideocamIcon,
-        path: "/playback"
-      }
-    ]
   }
 ];
 
@@ -139,8 +99,6 @@ const App: React.FC = () => {
           <Route path="/stats" component={Stats} />
 
           <Route path="/analysis" component={AnalysisPage} />
-
-          <Route path="/playback" component={PlaybackPage} />
         </div>
       </Router>
     </div>
