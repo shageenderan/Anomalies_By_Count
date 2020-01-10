@@ -24,6 +24,7 @@ COCO_MODEL_PATH = os.path.join(ROOT_DIR, "mask_rcnn_coco.h5")
 VIDEO_DIR = os.path.join(os.getcwd(), "videos")
 VIDEO_SAVE_DIR = os.path.join(os.getcwd(), "output")
 
+
 class_names = [
     'BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
     'bus', 'train', 'truck', 'boat', 'traffic light',
@@ -87,7 +88,10 @@ def apply_mask(image, mask, color, alpha=0.5):
 
 
 def display_instances(image, boxes, masks, ids, names, scores):
-    """take the image and results and apply the mask, box, and Label"""
+    global COUNT_WINDOW
+    """
+        take the image and results and apply the mask, box, and Label
+    """
     n_instances = boxes.shape[0]
     colors = random_colors(n_instances)
 
@@ -112,10 +116,54 @@ def display_instances(image, boxes, masks, ids, names, scores):
             image = cv2.putText(image, caption, (x1, y1),
                                 cv2.FONT_HERSHEY_COMPLEX, 0.7, color, 2)
 
-    people_counted = list(ids).count(1)
-    image = cv2.putText(image, 'People counted: {}'.format(people_counted)
-                        , (10, 30), cv2.FONT_HERSHEY_COMPLEX, 0.7, (255, 255, 255), 2)
-    return image, people_counted
+    people_count = list(ids).count(1)
+    anomaly, ema, diff = has_anomaly(people_count)
+    COUNT_WINDOW[(FRAME_COUNT-1) % WINDOW_SIZE] = people_count
+    ALL_COUNT.append(people_count)
+    image = cv2.putText(image, 'People counted: {}'.format(people_count),
+            (10, 30), cv2.FONT_HERSHEY_COMPLEX, 0.7, (255, 255, 255), 2)
+    image = cv2.putText(image, 'EMA: {}'.format(ema),
+            (10, 50), cv2.FONT_HERSHEY_COMPLEX, 0.7, (255, 255, 255), 2)
+    image = cv2.putText(image, 'EMA DIFFERENCE: {}'.format(diff),
+            (10, 70), cv2.FONT_HERSHEY_COMPLEX, 0.7, (255, 255, 255), 2)
+    if anomaly:
+            image = cv2.putText(image, 'ANOMALY DETECTED',
+            (10, 160), cv2.FONT_HERSHEY_COMPLEX, 0.7, (10, 10, 100), 2)
+    return image, people_count
+
+
+
+# %% [markdown]
+# ## Define Anomaly Detection Algorithm
+def has_anomaly(curr_count):
+    global ALL_COUNT, EMAS, COUNT_WINDOW, ANOMALIES
+    num_count = sum(x is not None for x in COUNT_WINDOW)
+    # num_count = len(ALL_COUNT)
+    if num_count == 0:
+        # not enough previous data
+        EMAS.append(curr_count)
+        return False, curr_count, 0
+    # average_count = sum_list(COUNT_WINDOW)/num_count
+    # ema = calc_ema(curr_count, EMAS[-1], num_count)
+    ema = calc_ema(curr_count, EMAS[-1], len(EMAS)+1)
+    difference = abs(ema-EMAS[-1])
+    EMAS.append(ema)
+    # print(difference)
+    if difference >= THRESHOLD:
+        ANOMALIES.append(len(ALL_COUNT))
+        return True, ema, difference
+    else:
+        return False, ema, difference
+
+# Exponential Moving Average (https://www.investopedia.com/terms/e/ema.asp)
+def calc_ema(curr_count, prev_ema, n):
+    # print(curr_count, prev_ema)
+    smoothing = 2/(1+n)
+    return curr_count*smoothing + prev_ema*(1-smoothing)
+
+def sum_list(lst):
+    filtered = list(filter(lambda x: x is not None, lst))
+    return sum(filtered)
 
 
 def object_detection_file(file_name, video_id):
@@ -157,6 +205,17 @@ def object_detection(file_location, video_id):
     except OSError:
         print('Error: Creating directory of data')
 
+    global FRAME_COUNT, WINDOW_SIZE, COUNT_WINDOW, THRESHOLD, ALL_COUNT, EMAS, ANOMALIES
+
+    FRAME_COUNT = 0
+    WINDOW_SIZE = 30
+    COUNT_WINDOW = [None] * WINDOW_SIZE
+    THRESHOLD = 0.3
+    ALL_COUNT = []
+    EMAS = []
+    ANOMALIES = []
+
+
     #################################### Setting up parameters ####################################
     frames = []
     seconds = 0.5  # this variable controls the interval between frames being analyzed, i.e. 0.5 -> every 0.5 seconds a frame is analyzed, 2 -> every 2 seconds a frame is analyzed
@@ -190,7 +249,9 @@ def object_detection(file_location, video_id):
                     f.save()
                 # Clear the frames array to start the next batch
                 frames = []
+    print("Done Analysis")
     capture.release()
+    print("Anomalies found in frames:{}".format(ANOMALIES))
     print("Processing completed. Written to {}".format(save_dir))
 
 
@@ -200,3 +261,17 @@ def check_video_exists(file_name):
         return True
     else:
         return False
+
+
+# # %% [markdown]
+# # ## Draw Count Graph
+# matplotlib.pyplot.plot(ALL_COUNT)
+# matplotlib.pyplot.ylabel("People Counted")
+# matplotlib.pyplot.show()
+#
+# # %% [markdown]
+# # ## Draw EMA Graph
+# matplotlib.pyplot.plot(EMAS)
+# matplotlib.pyplot.ylabel("EMA of People Counted")
+# matplotlib.pyplot.show()
+# # %%
