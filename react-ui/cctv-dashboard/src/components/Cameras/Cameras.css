@@ -14,3 +14,7 @@
 .camera-box-part:hover {
   background: #4183d7;
 }
+
+.hidden {display:none}
+
+.show {display:block}
