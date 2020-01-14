@@ -16,31 +16,7 @@ import FindInPageIcon from "@material-ui/icons/FindInPage";
 import Replay30Icon from "@material-ui/icons/Replay30";
 import Statistic from "./components/Statistic/Statistic";
 
-function Home(props: {}) {
-  return (
-    <div style={{ color: "white" }}>
-      <Cameras></Cameras>
-    </div>
-  );
-}
-
-function Stats(props: {}) {
-  return (
-    <div style={{ color: "white" }}>
-      <Statistic></Statistic>
-    </div>
-  );
-}
-
-function AnalysisPage(props: {}) {
-  return (
-    <div style={{ color: "white" }}>
-      <Analysis></Analysis>
-    </div>
-  );
-}
-
-const useStyles = makeStyles(theme => ({
+const styles = makeStyles(theme => ({
   root: {
     display: "flex"
   },
@@ -85,24 +61,97 @@ const items = [
   }
 ];
 
-const App: React.FC = () => {
-  const classes = useStyles();
-  return (
-    <div className="App">
-      <Router>
-        <div className={classes.root}>
-          <SideBar items={items} />
-          <Route exact path="/" component={Home} />
+interface AppState {
+  players: {[id: number]: {show:boolean, label:string, url:string, maximise:boolean, showCam:"hidden"|"show", showUrl:"hidden"|"show" }};
+}
 
-          <Route path="/cameras" component={Home} />
+class App extends React.Component<{}, AppState> {
+  constructor(props: {}) {
+    super(props)
+    this.state = {
+      players: {
+        1: {
+          show: true,
+          label: "Camera 1",
+          url: "",
+          maximise: false,
+          showCam: "hidden",
+          showUrl: "show"
+        },
+        2: {
+          show: true,
+          label: "Camera 2",
+          url: "",
+          maximise: false,
+          showCam: "hidden",
+          showUrl: "show"
+        },
+        3: {
+          show: true,
+          label: "Camera 3",
+          url: "",
+          maximise: false,
+          showCam: "hidden",
+          showUrl: "show"
+        },
+        4: {
+          show: true,
+          label: "Camera 4",
+          url: "",
+          maximise: false,
+          showCam: "hidden",
+          showUrl: "show"
+        }
+      },
+    }
+  }
 
-          <Route path="/stats" component={Stats} />
+  loadVideo = (e) => {
+    let players = this.state.players
+    players[e.target.id].url = e.target.value
+    this.setState({ players });
+  }
 
-          <Route path="/analysis" component={AnalysisPage} />
-        </div>
-      </Router>
-    </div>
-  );
+  showCamera = (e) => {
+    //alert('A name was submitted: ' + this.state.players[event.target.id].url);
+    e.preventDefault();
+    let players = this.state.players
+    players[e.target.id].showCam = "show"
+    players[e.target.id].showUrl = "hidden"
+    this.setState({ players });
+  }
+
+  toggleCameraSize = (id:string) => {
+    const players = Object.create(this.state.players);
+    // let showNav = false; 
+    for (let key in this.state.players) {
+      if (key !== id) {
+        players[key].show = !players[key].show;
+        // showNav = !players[key].show;
+      } else {
+        players[key].maximise = !players[key].maximise;
+      }
+    }
+    // this.setState({ players, showNav });
+    this.setState({ players });
+  };
+
+  render() {
+    return (
+      <div className="App">
+        <Router>
+          <div className="App">
+            <SideBar items={items} />
+            <Route exact path="/" component={Cameras} />
+            <Route path="/cameras" render={() => <Cameras players={this.state.players} toggleCameraSize={this.toggleCameraSize} showCamera={this.showCamera} loadVideo={this.loadVideo}/>}></Route>
+            <Route path="/stats" component={Statistic} />
+            <Route path="/analysis" component={Analysis} />
+          </div>
+        </Router>
+      </div>
+    );
+  }
+
 };
 
 export default App;
