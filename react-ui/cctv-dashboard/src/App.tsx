@@ -142,8 +142,8 @@ class App extends React.Component<{}, AppState> {
         <Router>
           <div className="App">
             <SideBar items={items} />
-            <Route exact path="/" component={Cameras} />
-            <Route path="/cameras" render={() => <Cameras players={this.state.players} toggleCameraSize={this.toggleCameraSize} showCamera={this.showCamera} loadVideo={this.loadVideo}/>}></Route>
+    <Route exact path="/" render={(props) => <Cameras players={this.state.players} toggleCameraSize={this.toggleCameraSize} showCamera={this.showCamera} loadVideo={this.loadVideo}/>}></Route>
+            <Route path="/cameras" render={(props) => <Cameras players={this.state.players} toggleCameraSize={this.toggleCameraSize} showCamera={this.showCamera} loadVideo={this.loadVideo}/>}></Route>
             <Route path="/stats" component={Statistic} />
             <Route path="/analysis" component={Analysis} />
           </div>
