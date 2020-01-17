@@ -49,24 +49,24 @@ class Statistic extends Component<StatisticProps, StatisticState> {
           2: {
             show: true,
             text: "Camera 2",
-            timeData: [1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0],
-            peopleCount: [0, 53, 75, 24, 70, 321, 43, 234, 26, 0],
+            timeData: [],
+            peopleCount: [],
             videoId: -1,
             maximise: false
           },
           3: {
             show: true,
             text: "Camera 3",
-            timeData: [1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0],
-            peopleCount: [0, 53, 75, 24, 70, 321, 43, 234, 26, 0],
+            timeData: [],
+            peopleCount: [],
             videoId: -1,
             maximise: false
           },
           4: {
             show: true,
             text: "Camera 4",
-            timeData: [1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0],
-            peopleCount: [0, 53, 75, 24, 70, 321, 43, 234, 26, 0],
+            timeData: [],
+            peopleCount: [],
             videoId: -1,
             maximise: false
           }
@@ -120,6 +120,7 @@ class Statistic extends Component<StatisticProps, StatisticState> {
     const { charts, showNav } = this.state;
     let currentCharts: any = [];
     for (let key in charts) {
+      let valMax:number = charts[key].timeData.length>0 ? (charts[key].timeData[charts[key].timeData.length-1]):10
       currentCharts.push(
         <Chart
           timeData={charts[key].timeData}
@@ -130,6 +131,7 @@ class Statistic extends Component<StatisticProps, StatisticState> {
           show={charts[key].show}
           click={this.click}
           maximise={charts[key].maximise}
+          valMax={valMax}
         />
       );
     }

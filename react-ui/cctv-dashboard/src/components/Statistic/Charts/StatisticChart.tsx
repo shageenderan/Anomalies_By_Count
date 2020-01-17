@@ -3,9 +3,9 @@ import Chart from "react-apexcharts";
 import "./StatisticChart.css";
 import Button from "react-bootstrap/Button";
 
-type MyState = { timeData: number[]; peopleCount: number[] };
+type MyProps = { timeData: number[]; peopleCount: number[], valMax:number };
 
-class LineChart extends React.Component<MyState, {}> {
+class LineChart extends React.Component<MyProps, {}> {
   render() {
     var options = {
       chart: {
@@ -28,12 +28,16 @@ class LineChart extends React.Component<MyState, {}> {
         }
       },
       xaxis: {
+        type: 'numeric',
         categories: this.props.timeData,
         labels: {
           style: {
             fontSize: "16px"
           }
-        }
+        },
+        tickAmount: 10,
+        min: 0,
+        max: this.props.valMax,
       },
       yaxis: {
         labels: {
@@ -59,7 +63,8 @@ function createStatChart({
   show,
   id,
   text,
-  maximise
+  maximise,
+  valMax
 }) {
   if (!show) return null;
 
@@ -71,7 +76,7 @@ function createStatChart({
         <Button className="text" variant="dark" size="lg">
           {text}
         </Button>
-        <LineChart timeData={timeData} peopleCount={peopleCount} />
+        <LineChart timeData={timeData} peopleCount={peopleCount} valMax={valMax}/>
       </div>
     </div>
   );
