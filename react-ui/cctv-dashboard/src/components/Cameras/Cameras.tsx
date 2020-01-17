@@ -5,7 +5,17 @@ import { JSXElement } from "@babel/types";
 import Button from "react-bootstrap/Button";
 
 interface CamerasProps {
-  players: { [id: number]: { show: boolean, label: string, url: string, maximise: boolean, showCam: "hidden" | "show", showUrl: "hidden" | "show" } };
+  players: { [id: number]: {
+                show: boolean,
+                label: string,
+                url: string,
+                maximise: boolean,
+                showCam: "hidden" | "show",
+                showUrl: "hidden" | "show",
+                videoId: number,
+                personCount: number[],
+                timeVal: number[]
+                }};
   loadVideo: (e: any) => void;
   showCamera: (e:any) => void;
   toggleCameraSize: (id: string) => void;

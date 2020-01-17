@@ -3,3 +3,4 @@ api/output
 api/videos
 env
 **/migrations
+**/node_modules
