@@ -15,6 +15,13 @@ from background_task import background
 # Create your views here.
 utcTimezone = pytz.utc
 
+fileExtensions = {
+    "x-flv": ".flv",
+    "mp4": ".mp4",
+    "quicktime": ".mov",
+    "x-msvideo": ".avi",
+    "x-ms-wmv": ".wmv"
+}
 
 class frameList(APIView):
 
@@ -160,20 +167,18 @@ class videoFrameDetail(APIView):
             start = request.GET.get('from', None)
             end = request.GET.get('to', None)
             if start is None:
-                startObject = datetime.datetime(1970, 1, 1)
+                startObject = -1
             else:
-                startObject = datetime.datetime.strptime(start, '%Y%m%d%H%M%S')
+                startObject = float(start)
             if end is None:
-                endObject = datetime.datetime.now()
+                frames = frames.filter(timestamp__gte=startObject)
             else:
-                endObject = datetime.datetime.strptime(end, '%Y%m%d%H%M%S')
-            startObject = utcTimezone.localize(startObject)
-            endObject = utcTimezone.localize(endObject)
-            frames = frames.filter(date_time__range=[startObject, endObject])
+                endObject = float(end)
+                frames = frames.filter(timestamp__range=[startObject, endObject])
             serializer = frameSerializer(frames, many=True)
             return Response(serializer.data)
         except Frame.DoesNotExist:
-            raise Http404
+            raise HttpResponse(status=202)
 
 
 class detectSubmit(APIView):
@@ -184,7 +189,6 @@ class detectSubmit(APIView):
             if serializer.validated_data.get('isUrl'):
                 req = requests.head(serializer.validated_data.get('url'))
                 if req.ok:
-                    print("ABC")
                     serializer.save()
                     detection_queue_url(serializer.data['url'], serializer.data['id'])
                     return Response(serializer.data, status=status.HTTP_202_ACCEPTED)

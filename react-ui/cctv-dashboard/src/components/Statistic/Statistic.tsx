@@ -1,41 +1,63 @@
 import React, { Component } from "react";
 import Chart from "./Charts/StatisticChart";
+import axios from "axios";
+import { apiUrl } from "../../App"
 
-class Statistic extends Component {
-  state = {
-    charts: {
-      // Hard code the statistic data for now
-      1: {
-        show: true,
-        text: "Camera 1",
-        timeData: [1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0],
-        peopleCount: [0, 53, 75, 24, 70, 321, 43, 234, 26, 0],
-        maximise: false
-      },
-      2: {
-        show: true,
-        text: "Camera 2",
-        timeData: [1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0],
-        peopleCount: [0, 53, 75, 24, 70, 321, 43, 234, 26, 0],
-        maximise: false
-      },
-      3: {
-        show: true,
-        text: "Camera 3",
-        timeData: [1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0],
-        peopleCount: [0, 53, 75, 24, 70, 321, 43, 234, 26, 0],
-        maximise: false
-      },
-      4: {
-        show: true,
-        text: "Camera 4",
-        timeData: [1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0],
-        peopleCount: [0, 53, 75, 24, 70, 321, 43, 234, 26, 0],
-        maximise: false
+interface StatisticProps{
+  players: { [id: number]: {
+                show: boolean,
+                label: string,
+                url: string,
+                maximise: boolean,
+                showCam: "hidden" | "show",
+                showUrl: "hidden" | "show",
+                videoId: number,
+                peopleCount: number[],
+                timeData: number[]
+                }
+           }
+}
+
+interface StatisticState{
+    charts: { [id: number]: {
+                show:boolean,
+                text:string,
+                maximise:boolean
+                }
+    }, showNav:boolean
+    ;
+}
+
+class Statistic extends Component<StatisticProps, StatisticState> {
+  constructor(props: StatisticProps) {
+    super(props);
+    this.state = {
+        charts: {
+          // Hard code the statistic data for now
+          1: {
+            show: true,
+            text: "Camera 1",
+            maximise: false
+          },
+          2: {
+            show: true,
+            text: "Camera 2",
+            maximise: false
+          },
+          3: {
+            show: true,
+            text: "Camera 3",
+            maximise: false
+          },
+          4: {
+            show: true,
+            text: "Camera 4",
+            maximise: false
+          }
+        },
+        showNav: false
       }
-    },
-    showNav: false
-  };
+  }
   click = id => {
     const charts = Object.create(this.state.charts);
     let showNav = false;
@@ -52,18 +74,21 @@ class Statistic extends Component {
 
   render() {
     const { charts, showNav } = this.state;
+    const players = this.props.players
     let currentCharts: any = [];
     for (let key in charts) {
+      let valMax:number = players[key].timeData.length>0 ? (players[key].timeData[players[key].timeData.length-1]):10
       currentCharts.push(
         <Chart
-          timeData={charts[key].timeData}
-          peopleCount={charts[key].peopleCount}
+          timeData={players[key].timeData}
+          peopleCount={players[key].peopleCount}
           key={key}
           id={key}
           text={charts[key].text}
           show={charts[key].show}
           click={this.click}
           maximise={charts[key].maximise}
+          valMax={valMax}
         />
       );
     }

@@ -9,7 +9,7 @@ import requests
 from urllib.parse import urlparse
 from mask.samples.coco import coco
 
-# import uuid
+import uuid
 # import mimetypes
 # #import magic
 # import urllib
@@ -42,6 +42,15 @@ class_names = [
     'sink', 'refrigerator', 'book', 'clock', 'vase', 'scissors',
     'teddy bear', 'hair drier', 'toothbrush'
 ]
+
+
+fileExtensions = {
+    "x-flv": ".flv",
+    "mp4": ".mp4",
+    "quicktime": ".mov",
+    "x-msvideo": ".avi",
+    "x-ms-wmv": ".wmv"
+}
 
 
 def load_models():
@@ -172,15 +181,16 @@ def object_detection_file(file_name, video_id):
 
 
 def object_detection_url(url, video_id):
-    # randomGuid = str(uuid.uuid4())
+    randomGuid = str(uuid.uuid4())
 
-    file_name = os.path.basename(urlparse(url).path)
-    path = os.path.join(VIDEO_DIR, file_name)
+    req = requests.get(url)
+    content_type = req.headers['content-type'].split('/')[-1]
+    ext = fileExtensions[content_type]
 
-    if not os.path.exists(path):
-        req = requests.get(url)
-        with open(path, 'wb') as f:
-            f.write(req.content)
+    path = os.path.join(VIDEO_DIR, randomGuid+ext)
+
+    with open(path, 'wb') as f:
+        f.write(req.content)
 
     # mime = magic.Magic(mime=True)
     # mimes = mime.from_file(fileLocation)  # Get mime type

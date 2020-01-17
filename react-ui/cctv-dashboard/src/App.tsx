@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import axios from "axios";
 
 // Components
 import SideBar from "./components/SideBar/Sidebar";
@@ -16,31 +17,8 @@ import FindInPageIcon from "@material-ui/icons/FindInPage";
 import Replay30Icon from "@material-ui/icons/Replay30";
 import Statistic from "./components/Statistic/Statistic";
 
-function Home(props: {}) {
-  return (
-    <div style={{ color: "white" }}>
-      <Cameras></Cameras>
-    </div>
-  );
-}
 
-function Stats(props: {}) {
-  return (
-    <div style={{ color: "white" }}>
-      <Statistic></Statistic>
-    </div>
-  );
-}
-
-function AnalysisPage(props: {}) {
-  return (
-    <div style={{ color: "white" }}>
-      <Analysis></Analysis>
-    </div>
-  );
-}
-
-const useStyles = makeStyles(theme => ({
+const styles = makeStyles(theme => ({
   root: {
     display: "flex"
   },
@@ -49,9 +27,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+export const apiUrl = "http://localhost:8000/"
+
+axios.defaults.baseURL = apiUrl
+
+
 const items = [
   { name: "cameras", label: "Cameras", Icon: VideocamIcon, path: "/cameras" },
-  { name: "stats", label: "Live stats", Icon: TimelineIcon, path: "/stats" },
+  { name: "stats", label: "Stats", Icon: TimelineIcon, path: "/stats" },
   {
     name: "analysis",
     label: "Analysis",
@@ -85,24 +68,146 @@ const items = [
   }
 ];
 
-const App: React.FC = () => {
-  const classes = useStyles();
-  return (
-    <div className="App">
-      <Router>
-        <div className={classes.root}>
-          <SideBar items={items} />
-          <Route exact path="/" component={Home} />
+interface AppState {
+  players: {[id: number]: {show:boolean, label:string, url:string, maximise:boolean,
+   showCam:"hidden"|"show", showUrl:"hidden"|"show", videoId: number, peopleCount: number[], timeData: number[]}};
+}
 
-          <Route path="/cameras" component={Home} />
+class App extends React.Component<{}, AppState> {
+  interval
+  constructor(props: {}) {
+    super(props)
+    this.state = {
+      players: {
+        1: {
+          show: true,
+          label: "Camera 1",
+          url: "",
+          maximise: false,
+          showCam: "hidden",
+          showUrl: "show",
+          videoId: -1,
+          peopleCount: [],
+          timeData: []
+        },
+        2: {
+          show: true,
+          label: "Camera 2",
+          url: "",
+          maximise: false,
+          showCam: "hidden",
+          showUrl: "show",
+          videoId: -1,
+          peopleCount: [],
+          timeData: []
+        },
+        3: {
+          show: true,
+          label: "Camera 3",
+          url: "",
+          maximise: false,
+          showCam: "hidden",
+          showUrl: "show",
+          videoId: -1,
+          peopleCount: [],
+          timeData: []
+        },
+        4: {
+          show: true,
+          label: "Camera 4",
+          url: "",
+          maximise: false,
+          showCam: "hidden",
+          showUrl: "show",
+          videoId: -1,
+          peopleCount: [],
+          timeData: []
+        }
+      }
+    }
+  }
 
-          <Route path="/stats" component={Stats} />
+  componentDidMount() {
+    this.interval = setInterval(() =>
+    {
+      for (let key in this.state.players){
+        if (this.state.players[key].videoId != -1) {
+          let count:number[] = []
+          let timestamp:number[] = []
+          let players = Object.create(this.state.players);
+          let url = "video/"+players[key].videoId.toString()+"/frame/"
+          let that = this
+          axios.get(url)
+               .then(res => {
+                  res.data.forEach(obj =>{
+                    count.push(obj.count)
+                    timestamp.push(obj.timestamp)
+                  })
+                  players[key].timeData = timestamp
+                  players[key].peopleCount = count
+                  that.setState({ players })
+               });
+        }
+      }
+    }, 1000);
+  }
 
-          <Route path="/analysis" component={AnalysisPage} />
-        </div>
-      </Router>
-    </div>
-  );
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
+
+  loadVideo = (e) => {
+    let players = this.state.players
+    players[e.target.id].url = e.target.value
+    this.setState({ players });
+  }
+
+  showCamera = (e) => {
+    e.preventDefault();
+    let players = this.state.players
+    let playerId = e.target.id
+    players[playerId].showCam = "show"
+    players[playerId].showUrl = "hidden"
+    this.setState({ players });
+    let that = this
+    axios.post('/video/submit/',{ isUrl: 'True', url: this.state.players[playerId].url })
+         .then(res => {
+            that.state.players[playerId].videoId = res.data.id
+            that.setState({players})
+            })
+  }
+
+
+  toggleCameraSize = (id:string) => {
+    const players = Object.create(this.state.players);
+    for (let key in this.state.players) {
+      if (key !== id) {
+        players[key].show = !players[key].show;
+      } else {
+        players[key].maximise = !players[key].maximise;
+      }
+    }
+    this.setState({ players });
+  };
+
+
+  render() {
+    return (
+      <div className="App">
+        <Router>
+          <div className="App">
+            <SideBar items={items} />
+            <Route exact path="/" render={(props) => <Cameras players={this.state.players} toggleCameraSize={this.toggleCameraSize} showCamera={this.showCamera} loadVideo={this.loadVideo}/>}></Route>
+            <Route path="/cameras" render={(props) => <Cameras players={this.state.players} toggleCameraSize={this.toggleCameraSize} showCamera={this.showCamera} loadVideo={this.loadVideo}/>}></Route>
+            <Route path="/stats" render={(props) => <Statistic players={this.state.players}/>}></Route>
+            <Route path="/analysis" component={Analysis} />
+          </div>
+        </Router>
+      </div>
+    );
+  }
+
 };
 
 export default App;

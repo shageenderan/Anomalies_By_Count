@@ -5,3 +5,7 @@
 .App{
   display: flex
 }
+
+.root{
+  display: "flex"
+}
