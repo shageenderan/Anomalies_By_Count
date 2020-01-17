@@ -86,10 +86,10 @@ WSGI_APPLICATION = 'api.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'team2bdb',
-        'USER': 'admin',
-        'PASSWORD': 'Team2bdb',
-        'HOST': 'localhost',
+        'NAME': 'csp',
+        'USER': 'admin2B@csp2b',
+        'PASSWORD': 'Monash20192B',
+        'HOST': 'csp2b.mysql.database.azure.com',
     }
 }
 
