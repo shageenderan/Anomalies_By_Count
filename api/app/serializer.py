@@ -17,4 +17,4 @@ class frameSerializer(serializers.ModelSerializer):
 class videoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Video
-        fields = ['id', 'title', 'url', 'isUrl', 'fileName']
+        fields = ['id', 'url', 'isUrl', 'fileName']
