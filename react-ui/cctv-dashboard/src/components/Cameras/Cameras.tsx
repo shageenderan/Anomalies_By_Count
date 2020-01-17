@@ -13,8 +13,8 @@ interface CamerasProps {
                 showCam: "hidden" | "show",
                 showUrl: "hidden" | "show",
                 videoId: number,
-                personCount: number[],
-                timeVal: number[]
+                peopleCount: number[],
+                timeData: number[]
                 }};
   loadVideo: (e: any) => void;
   showCamera: (e:any) => void;

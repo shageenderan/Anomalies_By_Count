@@ -70,10 +70,11 @@ const items = [
 
 interface AppState {
   players: {[id: number]: {show:boolean, label:string, url:string, maximise:boolean,
-   showCam:"hidden"|"show", showUrl:"hidden"|"show", videoId: number, personCount: number[], timeVal: number[]}};
+   showCam:"hidden"|"show", showUrl:"hidden"|"show", videoId: number, peopleCount: number[], timeData: number[]}};
 }
 
 class App extends React.Component<{}, AppState> {
+  interval
   constructor(props: {}) {
     super(props)
     this.state = {
@@ -86,8 +87,8 @@ class App extends React.Component<{}, AppState> {
           showCam: "hidden",
           showUrl: "show",
           videoId: -1,
-          personCount: [],
-          timeVal: []
+          peopleCount: [],
+          timeData: []
         },
         2: {
           show: true,
@@ -97,8 +98,8 @@ class App extends React.Component<{}, AppState> {
           showCam: "hidden",
           showUrl: "show",
           videoId: -1,
-          personCount: [],
-          timeVal: []
+          peopleCount: [],
+          timeData: []
         },
         3: {
           show: true,
@@ -108,8 +109,8 @@ class App extends React.Component<{}, AppState> {
           showCam: "hidden",
           showUrl: "show",
           videoId: -1,
-          personCount: [],
-          timeVal: []
+          peopleCount: [],
+          timeData: []
         },
         4: {
           show: true,
@@ -119,12 +120,42 @@ class App extends React.Component<{}, AppState> {
           showCam: "hidden",
           showUrl: "show",
           videoId: -1,
-          personCount: [],
-          timeVal: []
+          peopleCount: [],
+          timeData: []
         }
       }
     }
   }
+
+  componentDidMount() {
+    this.interval = setInterval(() =>
+    {
+      for (let key in this.state.players){
+        if (this.state.players[key].videoId != -1) {
+          let count:number[] = []
+          let timestamp:number[] = []
+          let players = Object.create(this.state.players);
+          let url = "video/"+players[key].videoId.toString()+"/frame/"
+          let that = this
+          axios.get(url)
+               .then(res => {
+                  res.data.forEach(obj =>{
+                    count.push(obj.count)
+                    timestamp.push(obj.timestamp)
+                  })
+                  players[key].timeData = timestamp
+                  players[key].peopleCount = count
+                  that.setState({ players })
+               });
+        }
+      }
+    }, 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
 
   loadVideo = (e) => {
     let players = this.state.players
@@ -150,16 +181,13 @@ class App extends React.Component<{}, AppState> {
 
   toggleCameraSize = (id:string) => {
     const players = Object.create(this.state.players);
-    // let showNav = false; 
     for (let key in this.state.players) {
       if (key !== id) {
         players[key].show = !players[key].show;
-        // showNav = !players[key].show;
       } else {
         players[key].maximise = !players[key].maximise;
       }
     }
-    // this.setState({ players, showNav });
     this.setState({ players });
   };
 
