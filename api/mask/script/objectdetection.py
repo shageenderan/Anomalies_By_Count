@@ -139,7 +139,7 @@ def display_instances(image, boxes, masks, ids, names, scores):
     if anomaly:
             image = cv2.putText(image, 'ANOMALY DETECTED',
             (10, 160), cv2.FONT_HERSHEY_COMPLEX, 0.7, (10, 10, 100), 2)
-    return image, people_count
+    return image, people_count, anomaly
 
 
 
@@ -233,6 +233,7 @@ def object_detection(file_location, video_id):
     fps = capture.get(cv2.CAP_PROP_FPS)  # Gets the frames per second
     multiplier = fps * seconds
     success = True
+    anomaly = False
     #################################### Setting up parameters ####################################
 
     while success:
@@ -247,7 +248,7 @@ def object_detection(file_location, video_id):
                 for i, item in enumerate(zip(frames, results)):
                     frame = item[0]
                     r = item[1]
-                    frame, people_counted = display_instances(
+                    frame, people_counted, anomaly = display_instances(
                         frame, r['rois'], r['masks'], r['class_ids'], class_names, r['scores']
                     )
                     frame_number = frame_count + i - batch_size
@@ -256,7 +257,8 @@ def object_detection(file_location, video_id):
                     cv2.imwrite(name, frame)
                     timestamp = frame_number * seconds
                     video = Video.objects.get(pk=video_id)
-                    f = Frame(video=video, frame_number=frame_number, timestamp=timestamp, count=people_counted)
+                    f = Frame(video=video, frame_number=frame_number, timestamp=timestamp, count=people_counted,
+                              anomaly=anomaly)
                     f.save()
                 # Clear the frames array to start the next batch
                 frames = []
