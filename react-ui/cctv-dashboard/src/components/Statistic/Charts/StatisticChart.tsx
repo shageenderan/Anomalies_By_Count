@@ -10,7 +10,7 @@ class LineChart extends React.Component<MyProps, {}> {
     var options = {
       chart: {
         zoom: {
-          enabled: false
+          enabled: true
         }
       },
       dataLabels: {
@@ -35,11 +35,15 @@ class LineChart extends React.Component<MyProps, {}> {
             fontSize: "16px"
           }
         },
+        title:{
+          text: 'Time (s)'
+        },
         tickAmount: 10,
         min: 0,
         max: this.props.valMax,
       },
       yaxis: {
+        seriesName: 'People Count',
         labels: {
           style: { fontSize: "16px" }
         }
@@ -64,16 +68,15 @@ function createStatChart({
   id,
   text,
   maximise,
-  valMax
-}) {
+  valMax }){
   if (!show) return null;
 
   let cName: string = maximise ? "maximise-box-part" : "statistic-box-part";
   return (
     <div className="col-md-6 ">
       <a href="#" />
-      <div className={cName + " text-center"} onClick={() => click(id)}>
-        <Button className="text" variant="dark" size="lg">
+      <div className={cName + " text-center"}>
+        <Button className="text" variant="dark" size="lg" onClick={() => click(id)}>
           {text}
         </Button>
         <LineChart timeData={timeData} peopleCount={peopleCount} valMax={valMax}/>

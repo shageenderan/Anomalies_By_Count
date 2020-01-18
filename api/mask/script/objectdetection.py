@@ -7,6 +7,7 @@ import tensorflow as tf
 import requests
 from mask.samples.coco import coco
 import uuid
+
 # import mimetypes
 # #import magic
 # import urllib
@@ -20,7 +21,6 @@ MODEL_DIR = os.path.join(ROOT_DIR, "logs")
 COCO_MODEL_PATH = os.path.join(ROOT_DIR, "mask_rcnn_coco.h5")
 VIDEO_DIR = os.path.join(os.getcwd(), "videos")
 VIDEO_SAVE_DIR = os.path.join(os.getcwd(), "output")
-
 
 class_names = [
     'BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
@@ -39,7 +39,6 @@ class_names = [
     'sink', 'refrigerator', 'book', 'clock', 'vase', 'scissors',
     'teddy bear', 'hair drier', 'toothbrush'
 ]
-
 
 fileExtensions = {
     "x-flv": ".flv",
@@ -128,19 +127,18 @@ def display_instances(image, boxes, masks, ids, names, scores):
 
     people_count = list(ids).count(1)
     anomaly, ema, diff = has_anomaly(people_count)
-    COUNT_WINDOW[(FRAME_COUNT-1) % WINDOW_SIZE] = people_count
+    COUNT_WINDOW[(FRAME_COUNT - 1) % WINDOW_SIZE] = people_count
     ALL_COUNT.append(people_count)
     image = cv2.putText(image, 'People counted: {}'.format(people_count),
-            (10, 30), cv2.FONT_HERSHEY_COMPLEX, 0.7, (255, 255, 255), 2)
+                        (10, 30), cv2.FONT_HERSHEY_COMPLEX, 0.7, (255, 255, 255), 2)
     image = cv2.putText(image, 'EMA: {}'.format(ema),
-            (10, 50), cv2.FONT_HERSHEY_COMPLEX, 0.7, (255, 255, 255), 2)
+                        (10, 50), cv2.FONT_HERSHEY_COMPLEX, 0.7, (255, 255, 255), 2)
     image = cv2.putText(image, 'EMA DIFFERENCE: {}'.format(diff),
-            (10, 70), cv2.FONT_HERSHEY_COMPLEX, 0.7, (255, 255, 255), 2)
+                        (10, 70), cv2.FONT_HERSHEY_COMPLEX, 0.7, (255, 255, 255), 2)
     if anomaly:
-            image = cv2.putText(image, 'ANOMALY DETECTED',
-            (10, 160), cv2.FONT_HERSHEY_COMPLEX, 0.7, (10, 10, 100), 2)
+        image = cv2.putText(image, 'ANOMALY DETECTED',
+                            (10, 160), cv2.FONT_HERSHEY_COMPLEX, 0.7, (10, 10, 100), 2)
     return image, people_count, anomaly
-
 
 
 # %% [markdown]
@@ -155,8 +153,8 @@ def has_anomaly(curr_count):
         return False, curr_count, 0
     # average_count = sum_list(COUNT_WINDOW)/num_count
     # ema = calc_ema(curr_count, EMAS[-1], num_count)
-    ema = calc_ema(curr_count, EMAS[-1], len(EMAS)+1)
-    difference = abs(ema-EMAS[-1])
+    ema = calc_ema(curr_count, EMAS[-1], len(EMAS) + 1)
+    difference = abs(ema - EMAS[-1])
     EMAS.append(ema)
     # print(difference)
     if difference >= THRESHOLD:
@@ -165,11 +163,13 @@ def has_anomaly(curr_count):
     else:
         return False, ema, difference
 
+
 # Exponential Moving Average (https://www.investopedia.com/terms/e/ema.asp)
 def calc_ema(curr_count, prev_ema, n):
     # print(curr_count, prev_ema)
-    smoothing = 2/(1+n)
-    return curr_count*smoothing + prev_ema*(1-smoothing)
+    smoothing = 2 / (1 + n)
+    return curr_count * smoothing + prev_ema * (1 - smoothing)
+
 
 def sum_list(lst):
     filtered = list(filter(lambda x: x is not None, lst))
@@ -188,7 +188,7 @@ def object_detection_url(url, video_id):
     content_type = req.headers['content-type'].split('/')[-1]
     ext = fileExtensions[content_type]
 
-    path = os.path.join(VIDEO_DIR, randomGuid+ext)
+    path = os.path.join(VIDEO_DIR, randomGuid + ext)
 
     with open(path, 'wb') as f:
         f.write(req.content)
@@ -226,14 +226,12 @@ def object_detection(file_location, video_id):
     EMAS = []
     ANOMALIES = []
 
-
     #################################### Setting up parameters ####################################
     frames = []
     seconds = 0.5  # this variable controls the interval between frames being analyzed, i.e. 0.5 -> every 0.5 seconds a frame is analyzed, 2 -> every 2 seconds a frame is analyzed
-    fps = capture.get(cv2.CAP_PROP_FPS)  # Gets the frames per second
-    multiplier = fps * seconds
+    fps = capture.get(cv2.CAP_PROP_FPS)  # Gets the frames per second of video
+    multiplier = int(round(fps * seconds))
     success = True
-    anomaly = False
     #################################### Setting up parameters ####################################
 
     while success:
@@ -262,7 +260,6 @@ def object_detection(file_location, video_id):
                     f.save()
                 # Clear the frames array to start the next batch
                 frames = []
-    print("Done Analysis")
     capture.release()
     print("Anomalies found in frames:{}".format(ANOMALIES))
     print("Processing completed. Written to {}".format(save_dir))
@@ -274,7 +271,6 @@ def check_video_exists(file_name):
         return True
     else:
         return False
-
 
 # # %% [markdown]
 # # ## Draw Count Graph
