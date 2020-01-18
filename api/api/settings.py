@@ -80,16 +80,6 @@ WSGI_APPLICATION = 'api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'team2bdb',
-#         'USER': 'admin',
-#         'PASSWORD': 'Team2bdb',
-#         'HOST': 'team2bdb.cr5yrho6l35h.us-east-1.rds.amazonaws.com',
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -99,6 +89,16 @@ DATABASES = {
         'HOST': 'csp2b.mysql.database.azure.com',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'team2bdb',
+#         'USER': 'admin',
+#         'PASSWORD': 'Team2bdb',
+#         'HOST': 'localhost',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
