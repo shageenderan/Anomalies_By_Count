@@ -1,14 +1,11 @@
 import os, sys
 import cv2
 import numpy as np
-from pathlib import Path
 from mask.mrcnn import utils
 import mask.mrcnn.model as modellib
 import tensorflow as tf
 import requests
-from urllib.parse import urlparse
 from mask.samples.coco import coco
-
 import uuid
 # import mimetypes
 # #import magic
@@ -63,6 +60,10 @@ def load_models():
 
     if not os.path.exists(COCO_MODEL_PATH):
         utils.download_trained_weights(COCO_MODEL_PATH)
+    if not os.path.exists(VIDEO_DIR):
+        os.makedirs(VIDEO_DIR)
+    if not os.path.exists(VIDEO_SAVE_DIR):
+        os.makedirs(VIDEO_SAVE_DIR)
 
     class InferenceConfig(coco.CocoConfig):
         GPU_COUNT = 1
