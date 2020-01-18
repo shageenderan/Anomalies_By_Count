@@ -15,7 +15,6 @@ class Frame(models.Model):
     anomaly = models.BooleanField(blank=False,default=False)
 
 class Video(models.Model):
-    title = models.CharField(max_length=255, blank=True)
     url = models.URLField(blank=True)
     fileName = models.CharField(max_length=255, blank=True)
     isUrl = models.BooleanField(default=True)
