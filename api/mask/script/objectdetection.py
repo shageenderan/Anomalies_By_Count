@@ -1,14 +1,11 @@
 import os, sys
 import cv2
 import numpy as np
-from pathlib import Path
 from mask.mrcnn import utils
 import mask.mrcnn.model as modellib
 import tensorflow as tf
 import requests
-from urllib.parse import urlparse
 from mask.samples.coco import coco
-
 import uuid
 # import mimetypes
 # #import magic

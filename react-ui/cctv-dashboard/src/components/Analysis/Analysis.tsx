@@ -36,6 +36,11 @@ class Analysis extends Component {
     chartType: this.chartOptions[0]
    };
 
+
+  componentDidMount(){
+    console.log("state from analysis:", this.props)
+  }
+
   handleChangeTimeSelection = values => {
     this.setState({ timeSelection: values.length ? values[0] : null });
   }
