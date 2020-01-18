@@ -134,7 +134,7 @@ class App extends React.Component<{}, AppState> {
         if (this.state.players[key].videoId != -1) {
           let count:number[] = []
           let timestamp:number[] = []
-          let players = Object.create(this.state.players);
+          let players = {...this.state.players};
           let url = "video/"+players[key].videoId.toString()+"/frame/"
           let that = this
           axios.get(url)
@@ -158,14 +158,14 @@ class App extends React.Component<{}, AppState> {
 
 
   loadVideo = (e) => {
-    let players = this.state.players
+    let players = {...this.state.players}
     players[e.target.id].url = e.target.value
     this.setState({ players });
   }
 
   showCamera = (e) => {
     e.preventDefault();
-    let players = this.state.players
+    let players = {...this.state.players}
     let playerId = e.target.id
     players[playerId].showCam = "show"
     players[playerId].showUrl = "hidden"
@@ -180,7 +180,7 @@ class App extends React.Component<{}, AppState> {
 
 
   toggleCameraSize = (id:string) => {
-    const players = Object.create(this.state.players);
+    const players = {...this.state.players};
     for (let key in this.state.players) {
       if (key !== id) {
         players[key].show = !players[key].show;

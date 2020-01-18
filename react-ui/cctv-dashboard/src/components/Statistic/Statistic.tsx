@@ -74,7 +74,7 @@ class Statistic extends Component<StatisticProps, StatisticState> {
 
   render() {
     const { charts, showNav } = this.state;
-    const players = this.props.players
+    const players = {...this.props.players}
     let currentCharts: any = [];
     for (let key in charts) {
       let valMax:number = players[key].timeData.length>0 ? (players[key].timeData[players[key].timeData.length-1]):10
