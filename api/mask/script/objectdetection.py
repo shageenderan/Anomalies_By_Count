@@ -127,8 +127,8 @@ def display_instances(image, boxes, masks, ids, names, scores):
                                 cv2.FONT_HERSHEY_COMPLEX, 0.7, color, 2)
 
     people_count = list(ids).count(1)
-    anomaly, ema, diff = has_anomaly(people_count)
     COUNT_WINDOW[(FRAME_COUNT-1) % WINDOW_SIZE] = people_count
+    anomaly, ema, diff = has_anomaly(people_count)
     ALL_COUNT.append(people_count)
     image = cv2.putText(image, 'People counted: {}'.format(people_count),
             (10, 30), cv2.FONT_HERSHEY_COMPLEX, 0.7, (255, 255, 255), 2)
@@ -146,28 +146,39 @@ def display_instances(image, boxes, masks, ids, names, scores):
 # %% [markdown]
 # ## Define Anomaly Detection Algorithm
 def has_anomaly(curr_count):
-    global ALL_COUNT, EMAS, COUNT_WINDOW, ANOMALIES
+    global ALL_COUNT, EMAS, COUNT_WINDOW, ANOMALIES, DIFFERENCES
     num_count = sum(x is not None for x in COUNT_WINDOW)
     # num_count = len(ALL_COUNT)
-    if num_count == 0:
+    if num_count == 1:
         # not enough previous data
         EMAS.append(curr_count)
+        DIFFERENCES.append(0)
         return False, curr_count, 0
     # average_count = sum_list(COUNT_WINDOW)/num_count
     # ema = calc_ema(curr_count, EMAS[-1], num_count)
-    ema = calc_ema(curr_count, EMAS[-1], len(EMAS)+1)
+    ema = calc_ema(curr_count, EMAS[-1], num_count)
     difference = abs(ema-EMAS[-1])
     EMAS.append(ema)
     # print(difference)
-    if difference >= THRESHOLD:
+    DIFFERENCES.append(difference)
+    threshold = calc_threshold(num_count)
+    print(threshold)
+    if difference > threshold:
         ANOMALIES.append(len(ALL_COUNT))
         return True, ema, difference
     else:
         return False, ema, difference
 
+def calc_threshold(n):
+    threshold = 0.5-(0.05*(n-3))
+    if threshold >= MIN_THRESHOLD:
+        return threshold
+    return MIN_THRESHOLD
+
 # Exponential Moving Average (https://www.investopedia.com/terms/e/ema.asp)
 def calc_ema(curr_count, prev_ema, n):
     # print(curr_count, prev_ema)
+
     smoothing = 2/(1+n)
     return curr_count*smoothing + prev_ema*(1-smoothing)
 
@@ -216,14 +227,15 @@ def object_detection(file_location, video_id):
     except OSError:
         print('Error: Creating directory of data')
 
-    global FRAME_COUNT, WINDOW_SIZE, COUNT_WINDOW, THRESHOLD, ALL_COUNT, EMAS, ANOMALIES
+    global FRAME_COUNT, WINDOW_SIZE, COUNT_WINDOW, THRESHOLD, ALL_COUNT, EMAS, ANOMALIES, DIFFERENCES
 
     FRAME_COUNT = 0
-    WINDOW_SIZE = 30
-    COUNT_WINDOW = [None] * WINDOW_SIZE
-    THRESHOLD = 0.3
+    WINDOW_SIZE = 20
+    COUNT_WINDOW = [None]*WINDOW_SIZE
+    MIN_THRESHOLD = 0.3
     ALL_COUNT = []
     EMAS = []
+    DIFFERENCES = []
     ANOMALIES = []
 
 
