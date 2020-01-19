@@ -44,25 +44,25 @@ const items = [
         name: "camera1",
         label: "Camera 1",
         Icon: VideocamIcon,
-        path: "/analysis"
+        path: "/analysis/1"
       },
       {
         name: "camera2",
         label: "Camera 2",
         Icon: VideocamIcon,
-        path: "/analysis"
+        path: "/analysis/2"
       },
       {
         name: "camera3",
         label: "Camera 3",
         Icon: VideocamIcon,
-        path: "/analysis"
+        path: "/analysis/3"
       },
       {
         name: "camera4",
         label: "Camera 4",
         Icon: VideocamIcon,
-        path: "/analysis"
+        path: "/analysis/4"
       }
     ]
   }
@@ -201,7 +201,7 @@ class App extends React.Component<{}, AppState> {
             <Route exact path="/" render={(props) => <Cameras players={this.state.players} toggleCameraSize={this.toggleCameraSize} showCamera={this.showCamera} loadVideo={this.loadVideo}/>}></Route>
             <Route path="/cameras" render={(props) => <Cameras players={this.state.players} toggleCameraSize={this.toggleCameraSize} showCamera={this.showCamera} loadVideo={this.loadVideo}/>}></Route>
             <Route path="/stats" render={(props) => <Statistic players={this.state.players}/>}></Route>
-            <Route path="/analysis" component={Analysis} />
+            <Route path="/analysis/:id" render={(props) => <Analysis {...props} data={this.state.players}/>}></Route>
           </div>
         </Router>
       </div>
