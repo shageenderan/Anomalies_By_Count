@@ -29,9 +29,11 @@
     "react-dropdown-menu": "0.0.2",
     "react-dropdown-select": "^3.8.1",
     "react-linechart": "^1.1.12",
+    "react-notification-popup": "^0.1.2",
     "react-player": "^1.13.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.3.0",
+    "react-toastify": "^5.5.0",
     "sass": "^1.24.0",
     "typescript": "3.6.3"
   },

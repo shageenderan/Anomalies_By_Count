@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import axios from "axios";
+import { Router, Route } from "react-router-dom";
+import history from "./history"
 
 // Components
 import SideBar from "./components/SideBar/Sidebar";
@@ -17,6 +17,10 @@ import FindInPageIcon from "@material-ui/icons/FindInPage";
 import Replay30Icon from "@material-ui/icons/Replay30";
 import Statistic from "./components/Statistic/Statistic";
 
+// Misc
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import axios from "axios";
 
 const styles = makeStyles(theme => ({
   root: {
@@ -30,7 +34,6 @@ const styles = makeStyles(theme => ({
 export const apiUrl = "http://localhost:8000/"
 
 axios.defaults.baseURL = apiUrl
-
 
 const items = [
   { name: "cameras", label: "Cameras", Icon: VideocamIcon, path: "/cameras" },
@@ -75,6 +78,7 @@ interface AppState {
 
 class App extends React.Component<{}, AppState> {
   interval
+
   constructor(props: {}) {
     super(props)
     this.state = {
@@ -132,16 +136,29 @@ class App extends React.Component<{}, AppState> {
     {
       for (let key in this.state.players){
         if (this.state.players[key].videoId != -1) {
-          let count:number[] = []
-          let timestamp:number[] = []
           let players = {...this.state.players};
-          let url = "video/"+players[key].videoId.toString()+"/frame/"
+          let count = players[key].peopleCount
+          let timestamp = players[key].timeData
+          let lastTime = timestamp[timestamp.length - 1]
+          if (timestamp.length == 0){
+            lastTime = 0
+          }
+          let url = "video/"+players[key].videoId.toString()+"/frame/?from="+lastTime
           let that = this
           axios.get(url)
                .then(res => {
+                  let first = true
                   res.data.forEach(obj =>{
-                    count.push(obj.count)
-                    timestamp.push(obj.timestamp)
+                    if (first){
+                        first = false
+                    }
+                    else {
+                        count.push(obj.count)
+                        timestamp.push(obj.timestamp)
+                        if (obj.anomaly == true){
+                          that.notifyAnomaly(key, obj.timestamp)
+                        }
+                    }
                   })
                   players[key].timeData = timestamp
                   players[key].peopleCount = count
@@ -154,6 +171,18 @@ class App extends React.Component<{}, AppState> {
 
   componentWillUnmount() {
     clearInterval(this.interval);
+  }
+
+  notifyAnomaly = (id, time) => toast("Anomaly detected in Camera "+id+" at time "+time,
+                { autoClose: 8000,
+                onClick:() => {
+                this.navigatePage();
+                this.toggleCameraSize(id);
+                }
+                });
+
+  navigatePage = () => {
+    history.push('/cameras')
   }
 
 
@@ -195,7 +224,7 @@ class App extends React.Component<{}, AppState> {
   render() {
     return (
       <div className="App">
-        <Router>
+        <Router history={history}>
           <div className="App">
             <SideBar items={items} />
             <Route exact path="/" render={(props) => <Cameras players={this.state.players} toggleCameraSize={this.toggleCameraSize} showCamera={this.showCamera} loadVideo={this.loadVideo}/>}></Route>
@@ -204,6 +233,7 @@ class App extends React.Component<{}, AppState> {
             <Route path="/analysis" component={Analysis} />
           </div>
         </Router>
+        <ToastContainer />
       </div>
     );
   }
