@@ -168,6 +168,7 @@ def has_anomaly(curr_count):
         return False, ema, difference
 
 def calc_threshold(n):
+    global MIN_THRESHOLD
     threshold = 0.5-(0.05*(n-3))
     if threshold >= MIN_THRESHOLD:
         return threshold
@@ -224,7 +225,7 @@ def object_detection(file_location, video_id):
     except OSError:
         print('Error: Creating directory of data')
 
-    global FRAME_COUNT, WINDOW_SIZE, COUNT_WINDOW, THRESHOLD, ALL_COUNT, EMAS, ANOMALIES, DIFFERENCES
+    global FRAME_COUNT, WINDOW_SIZE, COUNT_WINDOW, THRESHOLD, ALL_COUNT, EMAS, ANOMALIES, DIFFERENCES, MIN_THRESHOLD
 
     FRAME_COUNT = 0
     WINDOW_SIZE = 20
