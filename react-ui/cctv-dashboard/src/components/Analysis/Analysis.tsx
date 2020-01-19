@@ -69,6 +69,7 @@ class Analysis extends React.Component<AnalysisProps, AnalysisState> {
     const { timeSelection, chartType } = this.state;
     const isSpecificTime = timeSelection === this.timeOptions[2];
     const player = this.props.data[this.props.match.params.id]
+    let valMax:number = player.timeData.length>0 ? (player.timeData[player.timeData.length-1]):10
     return (
       <div className="container-truex">
         <div className="topbar">
@@ -117,6 +118,7 @@ class Analysis extends React.Component<AnalysisProps, AnalysisState> {
                 <LineChart
                   timeData={player.timeData}
                   peopleCount={player.peopleCount}
+                  valMax={valMax}
                 />
                 :
                 <h2>No data to display</h2>

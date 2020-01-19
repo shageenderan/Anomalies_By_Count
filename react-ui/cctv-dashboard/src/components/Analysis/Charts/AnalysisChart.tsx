@@ -2,14 +2,14 @@ import React from "react";
 import Chart from "react-apexcharts";
 import "./AnalysisChart.css";
 
-type MyState = { timeData: number[]; peopleCount: number[] };
+type MyState = { timeData: number[]; peopleCount: number[], valMax: number};
 
 class LineChart extends React.Component<MyState, {}> {
   render() {
     var options = {
       chart: {
         zoom: {
-          enabled: false
+          enabled: true
         }
       },
       dataLabels: {
@@ -27,12 +27,19 @@ class LineChart extends React.Component<MyState, {}> {
         }
       },
       xaxis: {
+        type: 'numeric',
         categories: this.props.timeData,
         labels: {
           style: {
             fontSize: "16px"
           }
-        }
+        },
+        title:{
+          text: 'Time (s)'
+        },
+        tickAmount: 10,
+        min: 0,
+        max: this.props.valMax,
       },
       yaxis: {
         labels: {
@@ -51,7 +58,7 @@ class LineChart extends React.Component<MyState, {}> {
   }
 }
 
-function createAnalysisChart({ timeData, peopleCount }) {
-  return <LineChart timeData={timeData} peopleCount={peopleCount} />;
+function createAnalysisChart({ timeData, peopleCount, valMax }) {
+  return <LineChart timeData={timeData} peopleCount={peopleCount} valMax={valMax}/>;
 }
 export default createAnalysisChart;
