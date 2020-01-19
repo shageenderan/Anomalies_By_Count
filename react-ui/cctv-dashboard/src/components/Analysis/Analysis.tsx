@@ -1,11 +1,26 @@
-import React, { Component } from "react";
+import React from "react";
 import "./Analysis.css";
 import Select from "react-dropdown-select";
 import LineChart from "./Charts/AnalysisChart";
 import Button from "react-bootstrap/Button";
 
-class Analysis extends Component {  
-   timeOptions = [
+interface AnalysisProps {
+  match: any
+  data: {
+    [id: number]: {
+      show: boolean, label: string, url: string, maximise: boolean,
+      showCam: "hidden" | "show", showUrl: "hidden" | "show", videoId: number, peopleCount: number[], timeData: number[]
+    }
+  };
+}
+
+interface AnalysisState {
+  timeSelection: { label: string, value: string };
+  chartType: { label: string, value: string };
+}
+
+class Analysis extends React.Component<AnalysisProps, AnalysisState> {
+  timeOptions = [
     {
       label: "Last Hour",
       value: "Last Hour"
@@ -19,7 +34,7 @@ class Analysis extends Component {
       value: "Specific"
     }
   ];
-  
+
   chartOptions = [
     {
       label: "Linear Chart",
@@ -34,11 +49,10 @@ class Analysis extends Component {
   state = {
     timeSelection: this.timeOptions[0],
     chartType: this.chartOptions[0]
-   };
+  };
 
-
-  componentDidMount(){
-    console.log("state from analysis:", this.props)
+  componentDidMount() {
+    console.log("data from analysis:", this.props)
   }
 
   handleChangeTimeSelection = values => {
@@ -54,7 +68,7 @@ class Analysis extends Component {
   render() {
     const { timeSelection, chartType } = this.state;
     const isSpecificTime = timeSelection === this.timeOptions[2];
-
+    const player = this.props.data[this.props.match.params.id]
     return (
       <div className="container-truex">
         <div className="topbar">
@@ -71,17 +85,17 @@ class Analysis extends Component {
                 values={[timeSelection]}
               />
               {isSpecificTime &&
-            <>
-              <div>
-                <label>From Time</label>
-                <input type="date" />
-              </div>
-              <div>
-                <label>To Time</label>
-                <input type="date" />
-              </div>
-            </>
-            }
+                <>
+                  <div>
+                    <label>From Time</label>
+                    <input type="date" />
+                  </div>
+                  <div>
+                    <label>To Time</label>
+                    <input type="date" />
+                  </div>
+                </>
+              }
             </div>
             <div className="dropdown">
               <label>Chart Type </label>
@@ -93,16 +107,21 @@ class Analysis extends Component {
               />
             </div>
 
-            
+
           </div>
         </div>
         <div className="row">
           <div className="analysis-box-part">
             <div>
-              <LineChart
-                timeData={[1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0]}
-                peopleCount={[0, 53, 75, 24, 70, 321, 43, 234, 26, 0]}
-              />
+              {player.timeData.length ?
+                <LineChart
+                  timeData={player.timeData}
+                  peopleCount={player.peopleCount}
+                />
+                :
+                <h2>No data to display</h2>
+              }
+
             </div>
           </div>
         </div>
