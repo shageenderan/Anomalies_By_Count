@@ -31,9 +31,7 @@ const styles = makeStyles(theme => ({
   }
 }));
 
-export const apiUrl = "http://localhost:8000/"
-
-axios.defaults.baseURL = apiUrl
+axios.defaults.baseURL = process.env.REACT_APP_API_URL
 
 const items = [
   { name: "cameras", label: "Cameras", Icon: VideocamIcon, path: "/cameras" },
@@ -135,12 +133,12 @@ class App extends React.Component<{}, AppState> {
     this.interval = setInterval(() =>
     {
       for (let key in this.state.players){
-        if (this.state.players[key].videoId != -1) {
+        if (this.state.players[key].videoId !== -1) {
           let players = {...this.state.players};
           let count = players[key].peopleCount
           let timestamp = players[key].timeData
           let lastTime = timestamp[timestamp.length - 1]
-          if (timestamp.length == 0){
+          if (timestamp.length === 0){
             lastTime = 0
           }
           let url = "video/"+players[key].videoId.toString()+"/frame/?from="+lastTime
@@ -155,7 +153,7 @@ class App extends React.Component<{}, AppState> {
                     else {
                         count.push(obj.count)
                         timestamp.push(obj.timestamp)
-                        if (obj.anomaly == true){
+                        if (obj.anomaly === true){
                           that.notifyAnomaly(key, obj.timestamp)
                         }
                     }

@@ -152,9 +152,8 @@ def has_anomaly(curr_count):
         EMAS.append(curr_count)
         DIFFERENCES.append(0)
         return False, curr_count, 0
-    # average_count = sum_list(COUNT_WINDOW)/num_count
-    # ema = calc_ema(curr_count, EMAS[-1], num_count)
     ema = calc_ema(curr_count, EMAS[-1], num_count)
+    print(ema)
     difference = abs(ema-EMAS[-1])
     EMAS.append(ema)
     # print(difference)
@@ -183,7 +182,6 @@ def calc_ema(curr_count, prev_ema, n):
 def sum_list(lst):
     filtered = list(filter(lambda x: x is not None, lst))
     return sum(filtered)
-
 
 def object_detection_file(file_name, video_id):
     path = os.path.join(VIDEO_DIR, file_name)

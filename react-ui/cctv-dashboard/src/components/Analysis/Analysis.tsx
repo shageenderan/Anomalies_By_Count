@@ -3,6 +3,10 @@ import "./Analysis.css";
 import Select from "react-dropdown-select";
 import LineChart from "./Charts/AnalysisChart";
 import Button from "react-bootstrap/Button";
+import Table from "./Table/Table";
+import axios from "axios";
+
+axios.defaults.baseURL = process.env.REACT_APP_API_URL
 
 interface AnalysisProps {
   match: any
@@ -14,12 +18,21 @@ interface AnalysisProps {
   };
 }
 
+interface Frame {
+    frame_number:number;
+    count:number;
+    timestamp:number;
+    anomaly:string;
+}
+
 interface AnalysisState {
   timeSelection: { label: string, value: string };
   chartType: { label: string, value: string };
+  tableData: {[id: number]: Frame[]};
 }
 
 class Analysis extends React.Component<AnalysisProps, AnalysisState> {
+  interval
   timeOptions = [
     {
       label: "Last Hour",
@@ -48,11 +61,28 @@ class Analysis extends React.Component<AnalysisProps, AnalysisState> {
 
   state = {
     timeSelection: this.timeOptions[0],
-    chartType: this.chartOptions[0]
+    chartType: this.chartOptions[0],
+    tableData: {
+        1: [],
+        2: [],
+        3: [],
+        4: []
+        }
   };
 
-  componentDidMount() {
-    console.log("data from analysis:", this.props)
+  refreshTableData = (id) => {
+    const players = this.props.data
+    let videoId = players[id].videoId
+    if (videoId !== -1) {
+      let tableData = this.state.tableData;
+      let url = "video/"+videoId.toString()+"/frame"
+      let that = this
+      axios.get(url)
+           .then(res => {
+              tableData[id]= res.data
+              that.setState({ tableData })
+           });
+    }
   }
 
   handleChangeTimeSelection = values => {
@@ -66,9 +96,10 @@ class Analysis extends React.Component<AnalysisProps, AnalysisState> {
   }
 
   render() {
-    const { timeSelection, chartType } = this.state;
+    const { timeSelection, chartType, tableData} = this.state;
     const isSpecificTime = timeSelection === this.timeOptions[2];
-    const player = this.props.data[this.props.match.params.id]
+    const key = this.props.match.params.id
+    const player = this.props.data[key]
     let valMax:number = player.timeData.length>0 ? (player.timeData[player.timeData.length-1]):10
     return (
       <div className="container-truex">
@@ -107,12 +138,11 @@ class Analysis extends React.Component<AnalysisProps, AnalysisState> {
                 values={[chartType]}
               />
             </div>
-
-
           </div>
         </div>
         <div className="row">
           <div className="analysis-box-part">
+            {chartType.value===this.chartOptions[0].value?
             <div>
               {player.timeData.length ?
                 <LineChart
@@ -125,6 +155,11 @@ class Analysis extends React.Component<AnalysisProps, AnalysisState> {
               }
 
             </div>
+            :
+            <div>
+              <Table data={tableData[key]} refreshTable={this.refreshTableData} id={key} />
+            </div>
+            }
           </div>
         </div>
       </div>

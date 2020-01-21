@@ -5,7 +5,7 @@ from .models import Frame, Video
 class frameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Frame
-        fields = ['id', 'video', 'date_time', 'count', 'timestamp', 'anomaly']
+        fields = ['id', 'video', 'frame_number', 'date_time', 'count', 'timestamp', 'anomaly']
 
     def to_representation(self, instance):
         representation = super(frameSerializer, self).to_representation(instance)

@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import Chart from "./Charts/StatisticChart";
-import axios from "axios";
-import { apiUrl } from "../../App"
 
 interface StatisticProps{
   players: { [id: number]: {

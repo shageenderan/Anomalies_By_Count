@@ -34,8 +34,10 @@
     "react-player": "^1.13.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.3.0",
+    "react-table": "^7.0.0-rc.15",
     "react-toastify": "^5.5.0",
     "sass": "^1.24.0",
+    "styled-components": "^5.0.0",
     "typescript": "3.6.3"
   },
   "scripts": {
