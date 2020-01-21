@@ -153,13 +153,12 @@ def has_anomaly(curr_count):
         DIFFERENCES.append(0)
         return False, curr_count, 0
     ema = calc_ema(curr_count, EMAS[-1], num_count)
-    print(ema)
+    # print(ema)
     difference = abs(ema-EMAS[-1])
     EMAS.append(ema)
-    # print(difference)
     DIFFERENCES.append(difference)
     threshold = calc_threshold(num_count)
-    print(threshold)
+    # print(threshold)
     if difference > threshold:
         ANOMALIES.append(len(ALL_COUNT))
         return True, ema, difference
@@ -210,8 +209,6 @@ def object_detection_url(url, video_id):
 
 def object_detection(file_location, video_id):
     from app.models import Frame, Video
-    frame_count = 0
-
     # Get video file
     capture = cv2.VideoCapture(str(file_location))
 
@@ -247,7 +244,7 @@ def object_detection(file_location, video_id):
         success, frame = capture.read()
 
         if frame_id % multiplier == 0:
-            frame_count += 1
+            FRAME_COUNT += 1
             frames.append(frame)
             if len(frames) == batch_size:
                 results = model.detect(frames, verbose=0)
@@ -257,7 +254,7 @@ def object_detection(file_location, video_id):
                     frame, people_counted, anomaly = display_instances(
                         frame, r['rois'], r['masks'], r['class_ids'], class_names, r['scores']
                     )
-                    frame_number = frame_count + i - batch_size
+                    frame_number = FRAME_COUNT + i - batch_size
                     name = '{0}.jpg'.format(frame_number)
                     name = os.path.join(save_dir, name)
                     cv2.imwrite(name, frame)
