@@ -6,7 +6,7 @@
     ```bash
     cd api/mask
     ```
-3. Install dependencies for back-end. Ensure that compatible versions of tensorflow-gpu, CUDA amd CUDNN.*(Tested working on tensorflow-gpu v1.12.0, CUDA v9.0, CUDNN v7.3.1, Keras v2.2.4)*
+3. Install dependencies for back-end. Ensure that [compatible versions](https://www.tensorflow.org/install/source#tested_build_configurations) of tensorflow-gpu, CUDA and CUDNN are installed. *(Tested working on tensorflow-gpu v1.12.0, CUDA v9.0, CUDNN v7.3.1, Keras v2.2.4)*
    ```bash
    pip3 install -r requirements.txt
    python3 setup.py install
@@ -36,4 +36,4 @@
    ```
    
 ## Navigating the website
- The website contains 3 main sections. The cameras:
+ The website contains 3 main sections. The Cameras page, the Statistics for each page, and the Analysis page that show the stats charts and tabular form the data displayed. On the camera page, enter the download URL of a video as input for one of the cameras.
