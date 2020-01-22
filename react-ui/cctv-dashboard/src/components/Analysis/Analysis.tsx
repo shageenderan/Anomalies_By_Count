@@ -95,6 +95,13 @@ class Analysis extends React.Component<AnalysisProps, AnalysisState> {
     this.setState({ chartType: values.length ? values[0] : null });
   }
 
+  componentDidMount(){
+    const players = this.props.data
+    for (let key in players){
+      this.refreshTableData(key)
+    }
+  }
+
   render() {
     const { timeSelection, chartType, tableData} = this.state;
     const isSpecificTime = timeSelection === this.timeOptions[2];
