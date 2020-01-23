@@ -45,7 +45,9 @@ fileExtensions = {
     "mp4": ".mp4",
     "quicktime": ".mov",
     "x-msvideo": ".avi",
-    "x-ms-wmv": ".wmv"
+    "x-ms-wmv": ".wmv",
+    "avi": ".avi",
+    "msvideo": ".avi"
 }
 
 
