@@ -61,8 +61,6 @@ class frameDateRange(APIView):
             endObject = datetime.datetime.now()
         else:
             endObject = datetime.datetime.strptime(end, '%Y%m%d%H%M%S')
-        startObject = utcTimezone.localize(startObject)
-        endObject = utcTimezone.localize(endObject)
         frames = Frame.objects.filter(date_time__range=[startObject, endObject])
         serializer = frameSerializer(frames, many=True)
         return Response(serializer.data)
@@ -86,37 +84,31 @@ class frameTimestampRange(APIView):
 
 
 class frameDetail(APIView):
-    def get_object(self, pk):
+    def get(self, request, pk):
         try:
-            return Frame.objects.get(pk=pk)
+            frame = Frame.objects.get(pk=pk)
+            serializer = frameSerializer(frame)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         except Frame.DoesNotExist:
             raise Http404
 
-    def get(self, request, pk):
-        frame = self.get_object(pk)
-        serializer = frameSerializer(frame)
-        return Response(serializer.data)
-
-    def post(self, request):
-        serializer = frameSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
     def put(self, request, pk):
-        frame = self.get(request, pk)
-        serializer = frameSerializer(frame, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            frame = Frame.objects.get(pk=pk)
+            serializer = frameSerializer(frame, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+        except Frame.DoesNotExist:
+            raise Http404
 
     def delete(self, request, pk):
-        frame = self.get(request, pk)
-        frame.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        try:
+            frame = Frame.objects.get(pk=pk)
+            frame.delete()
+            return Response(status=status.HTTP_200_OK)
+        except Frame.DoesNotExist:
+            raise Http404
 
 
 class videoList(APIView):
@@ -127,38 +119,31 @@ class videoList(APIView):
 
 
 class videoDetail(APIView):
-    def get_object(self, pk):
+    def get(self, request, pk):
         try:
-            return Video.objects.get(pk=pk)
+            video = Video.objects.get(pk=pk)
+            serializer = videoSerializer(video)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         except Video.DoesNotExist:
             raise Http404
 
-    def get(self, request, pk):
-        video = self.get_object(pk)
-        serializer = videoSerializer(video)
-        return Response(serializer.data)
-
-    def post(self, request):
-        serializer = videoSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
     def put(self, request, pk):
-        video = self.get(request, pk)
-        serializer = videoFrameDetail(video, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            video = Video.objects.get(pk=pk)
+            serializer = videoSerializer(video, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+        except Video.DoesNotExist:
+            raise Http404
 
     def delete(self, request, pk):
-        video = self.get(request, pk)
-        video.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
+        try:
+            video = Video.objects.get(pk=pk)
+            video.delete()
+            return Response(status=status.HTTP_200_OK)
+        except Video.DoesNotExist:
+            raise Http404
 
 class videoFrameDetail(APIView):
     def get(self, request, videoPK):
@@ -176,9 +161,9 @@ class videoFrameDetail(APIView):
                 endObject = float(end)
                 frames = frames.filter(timestamp__range=[startObject, endObject])
             serializer = frameSerializer(frames, many=True)
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         except Frame.DoesNotExist:
-            raise HttpResponse(status=202)
+            raise HttpResponse(status=200)
 
 
 class detectSubmit(APIView):
