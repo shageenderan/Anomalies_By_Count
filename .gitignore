@@ -7,3 +7,4 @@ env
 **/__pycache_
 tests/videos/
 tests/mask/mask_rcnn_coco.h5
+tests/logs/*.txt

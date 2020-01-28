@@ -1,8 +1,3 @@
-######################################################################################################################################################
-# Not working yet, need to get ground truth from chee yiing first 
-######################################################################################################################################################
-# To add a new cell, type '# %%'
-# To add a new markdown cell, type '# %% [markdown]'
 # %%
 from IPython import get_ipython
 
@@ -22,10 +17,11 @@ import matplotlib.pyplot as plt
 from math import log
 
 # Root directory of the project
-ROOT_DIR = os.path.abspath("../mask")
-
+ROOT_DIR = os.path.abspath("../")
+MASK_DIR = os.path.join(ROOT_DIR, "mask")
 # Import Mask RCNN
-sys.path.append(ROOT_DIR)  # To find local version of the library
+sys.path.append(MASK_DIR)  # To find local version of the library
+
 from mrcnn import utils
 import mrcnn.model as modellib
 # Import COCO config
@@ -38,7 +34,7 @@ get_ipython().run_line_magic('matplotlib', 'inline')
 MODEL_DIR = os.path.join(ROOT_DIR, "logs")
 
 # Local path to trained weights file
-COCO_MODEL_PATH = os.path.join(ROOT_DIR, "mask_rcnn_coco.h5")
+COCO_MODEL_PATH = os.path.join(MASK_DIR, "mask_rcnn_coco.h5")
 # Download COCO trained weights from Releases if needed
 if not os.path.exists(COCO_MODEL_PATH):
     utils.download_trained_weights(COCO_MODEL_PATH)
@@ -88,7 +84,6 @@ class_names = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
                'sink', 'refrigerator', 'book', 'clock', 'vase', 'scissors',
                'teddy bear', 'hair drier', 'toothbrush']
 
-
 # %% [markdown]
 # ## Defining Drawing Functions
 def safe_log(n):
@@ -112,6 +107,7 @@ def apply_mask(image, mask, color, alpha=0.5):
 
 
 def display_instances(image, boxes, masks, ids, names, scores):
+    import cv2
     global COUNT_WINDOW
     # global ALL_COUNT
     """
@@ -121,7 +117,7 @@ def display_instances(image, boxes, masks, ids, names, scores):
     colors = random_colors(n_instances)
 
     if not n_instances:
-        print('NO INSTANCES TO DISPLAY')
+        pass
     else:
         assert boxes.shape[0] == masks.shape[-1] == ids.shape[0]
 
@@ -161,21 +157,24 @@ def display_instances(image, boxes, masks, ids, names, scores):
 def has_anomaly(curr_count):
     global ALL_COUNT, EMAS, COUNT_WINDOW, ANOMALIES
     num_count = sum(x is not None for x in COUNT_WINDOW)
-    # num_count = len(ALL_COUNT)
     if num_count == 1:
         # not enough previous data
         EMAS.append(curr_count)
         DIFFERENCES.append(0)
         return False, curr_count, 0
-    # average_count = sum_list(COUNT_WINDOW)/num_count
-    # ema = calc_ema(curr_count, EMAS[-1], num_count)
+    
+    # Calculate new ema
     ema = calc_ema(curr_count, EMAS[-1], num_count)
+
+    # Calculate Difference in ema
     difference = abs(ema-EMAS[-1])
     EMAS.append(ema)
-    # print(difference)
     DIFFERENCES.append(difference)
+
+    # Calculate current threshold
     threshold = calc_threshold(num_count)
-    print(threshold)
+
+    # Check for anomaly
     if difference > threshold:
         ANOMALIES.append(len(ALL_COUNT))
         return True, ema, difference
@@ -190,22 +189,15 @@ def calc_threshold(n):
 
 # Exponential Moving Average (https://www.investopedia.com/terms/e/ema.asp)
 def calc_ema(curr_count, prev_ema, n):
-    # print(curr_count, prev_ema)
-
     smoothing = 2/(1+n)
     return curr_count*smoothing + prev_ema*(1-smoothing)
 
-def sum_list(lst):
-    filtered = list(filter(lambda x: x is not None, lst))
-    return sum(filtered)
-
 # %% [markdown]
 # ## Retrieve Raw Video File and Set Parameters
-def analyze_video(test_video):
+def analyze_video(test_video, test_video_dir):
     import cv2
-    VIDEO_DIR = os.path.join(ROOT_DIR, "videos")
-    VIDEO_SAVE_DIR = os.path.join(VIDEO_DIR, "anomaly_tests")
-    capture = cv2.VideoCapture(os.path.join(VIDEO_DIR, 'anomalies/' + test_video))
+    VIDEO_SAVE_DIR = os.path.join(test_video_dir, ".analyzed_output")
+    capture = cv2.VideoCapture(os.path.join(test_video_dir, test_video))
     # Create directory for output
     try:
         if not os.path.exists(VIDEO_SAVE_DIR):
@@ -214,6 +206,7 @@ def analyze_video(test_video):
         print('Error: Creating directory of data')
 
     # Defining Constants for Anomaly Detection
+    global FRAME_COUNT, WINDOW_SIZE, COUNT_WINDOW, MIN_THRESHOLD, ALL_COUNT, EMAS, DIFFERENCES, ANOMALIES
     FRAME_COUNT = 0
     WINDOW_SIZE = 20
     COUNT_WINDOW = [None]*WINDOW_SIZE
@@ -232,6 +225,7 @@ def analyze_video(test_video):
 
     # %% [markdown]
     # ## Run Video Analysis
+    print("Starting analysis for {}...".format(test_video))
     batch_size = 1
     while success:
         frameId = int(round(capture.get(1)))
@@ -242,7 +236,7 @@ def analyze_video(test_video):
             frames.append(frame)
             if len(frames) == batch_size:
                 results = model.detect(frames, verbose=0)
-                print('FRAME_COUNT :{0}'.format(FRAME_COUNT))
+                # print('FRAME_COUNT :{0}'.format(FRAME_COUNT))
                 FRAME_COUNT += 1
                 for i, item in enumerate(zip(frames, results)):
                     frame = item[0]
@@ -250,54 +244,34 @@ def analyze_video(test_video):
                     frame = display_instances(
                         frame, r['rois'], r['masks'], r['class_ids'], class_names, r['scores']
                     )
-                    name = '{0}.jpg'.format(FRAME_COUNT + i - batch_size)
+                    name = '{0}_{1}.jpg'.format(test_video.split(".")[0], FRAME_COUNT + i - batch_size)
                     name = os.path.join(VIDEO_SAVE_DIR, name)
                     cv2.imwrite(name, frame)
-                    print('writing to file:{0}'.format(name))
                 # Clear the frames array to start the next batch
                 frames = []        
     print("Done Analysis")  
     capture.release()
-    print("Anomalies found in frames:{}".format(ANOMALIES))
     return ANOMALIES
-
-# %% [markdown]
-# ## Draw Count Graph
-matplotlib.pyplot.plot(ALL_COUNT)
-matplotlib.pyplot.ylabel("People Counted")
-matplotlib.pyplot.show()
-
-# %% [markdown]
-# ## Draw EMA Graph
-matplotlib.pyplot.plot(EMAS)
-matplotlib.pyplot.ylabel("EMA of People Counted")
-matplotlib.pyplot.show()
-
-# %% [markdown]
-# ## Draw EMA Difference Graph
-matplotlib.pyplot.plot(DIFFERENCES)
-matplotlib.pyplot.ylabel("EMA of People Counted")
-matplotlib.pyplot.show()
 
 # %% [markdown]
 # ## Testing
 # Extract all test video file names
 import os
-TEST_DIR = os.path.join(ROOT_DIR, "test")
-TEST_VIDEO_DIR = os.path.join(TEST_DIR, "videos") 
+TEST_VIDEO_DIR = os.path.join(ROOT_DIR, "videos") 
+DATA_FILE_DIR = os.path.join(ROOT_DIR, "data_files") 
 
-test_videos = [f for f in os.listdir(TEST_VIDEO_DIR)]
+test_videos = [f for f in os.listdir(TEST_VIDEO_DIR) if not f.startswith('.')]
 
 print(test_videos)
 
 # %% [markdown]
-# Extract ground truths
+# ## Extract ground truths
 def int_list(lst):
-    if lst[0] == '':
+    if lst[0] == ' ':
         return []
     return [int(n) for n in lst]
 
-ground_truth_file = str(os.path.join(TEST_DIR, "ground_truths.txt"))
+ground_truth_file = str(os.path.join(DATA_FILE_DIR, "ground_truths.txt"))
 with open(ground_truth_file, "r") as f:
     raw_data = f.read()
     raw_split = raw_data.split("\n")
@@ -307,11 +281,131 @@ with open(ground_truth_file, "r") as f:
 
     ground_truth = dict(zip(video_titles, anomaly_starts))
 
+# %% [markdown]
+# ## Define Metric functions
+def calc_accuracy(tp, tn, fp, fn):
+    return (tp + tn)/(tp+tn+fp+fn)
+
+def calc_error_rate(accuracy):
+    return 1-accuracy
+
+def calc_recall(tp, fn):
+    if not tp and not fn:
+        return 1.0
+    return tp/(tp+fn)
+
+def calc_specificity(tn, fp):
+    return tn/(tn+fp)
+
+def calc_precision(tp, fp):
+    if not tp and not fp:
+        return 1.0
+    return tp/(tp+fp)
+
+def calc_false_positive_rate(tn, fp):
+    return fp/(tn+fp)
+
+def avg(lst):
+    return sum(lst)/len(lst)
 
 # %% [markdown]
-# Test each video and compare with ground truth
-for video in test_videos:
-    predicted_anomalies = analyze_video(video)
-    print(predicted_anomalies)
-    print(ground_truth[video])
+# ## Test each video and compare with ground truth
+# Get name of new log file
+TEST_LOG_DIR = os.path.join(ROOT_DIR, "logs")
+log_num = len([f for f in os.listdir(TEST_LOG_DIR)])
+log_file_name = os.path.join(TEST_LOG_DIR, "log_{}.txt".format(log_num))
+
+# Define constants for calculating averages later
+ALL_ACCURACIES = []
+ALL_ERROR_RATES = []
+ALL_RECALL = []
+ALL_SPECIFICITY = []
+ALL_PRECISION = []
+ALL_FPR = []
+
+# Start comparisions and writting 
+with open(log_file_name, "w+") as outfil:
+    for video in test_videos:
+        try:
+            global ALL_COUNT
+            video_key = video.split(".")[0]
+            predicted_anomalies = analyze_video(video, TEST_VIDEO_DIR)
+            false_negative_list = []
+            true_positive_list = []
+            for truth in ground_truth[video_key]:
+                correctly_predicted = False
+                tmp_predicted = -1
+                for predicted in predicted_anomalies:
+                    if truth in predicted_anomalies:
+                        correctly_predicted = True
+                        predicted_anomalies.remove(predicted)
+                        true_positive_list.append(predicted)
+                        break
+                    if abs(predicted-truth) <= 2: # 2 frames leeway = 1 seconds leeway
+                        correctly_predicted = True
+                        if predicted > tmp_predicted:
+                            tmp_predicted = predicted
+                if not correctly_predicted: 
+                    false_negative_list.append(truth)
+                else:
+                    if tmp_predicted != -1:
+                        predicted_anomalies.remove(tmp_predicted)
+                        true_positive_list.append(tmp_predicted)
+            false_positive_list = predicted_anomalies
+            true_negative_list = [x for x in range(len(ALL_COUNT)) if x not in ground_truth[video_key] and x not in false_positive_list]
+            
+            true_positive = len(true_positive_list)
+            true_negative = len(true_negative_list)
+            false_positive = len(false_positive_list)
+            false_negative = len(false_negative_list)
+
+            accuracy_rate = calc_accuracy(true_positive, true_negative, false_positive, false_negative)
+            recall = calc_recall(true_positive, false_negative)
+            specificity = calc_specificity(true_negative, false_positive)
+            precision = calc_precision(true_positive, false_positive)
+            fpr = calc_false_positive_rate(true_negative, false_positive)
+
+            outfil.write(video+"\n")
+            outfil.write("Total Frames: {}\n[TRUE NEGATIVE] Frames correctly not predicted: {}\n".format(len(ALL_COUNT), len(true_negative_list)))
+            outfil.write("[TRUE POSITIVE] Frames Correctly Predicted Anomalies: {}\n".format(true_positive_list))
+            outfil.write("[FALSE NEGATIVE] Failed To Predict Anomalies At: {}\n".format(false_negative_list))
+            outfil.write("[FALSE POSITIVES] Wrongly Predicted Anomalies At:{}\n\n".format(false_positive_list))
+            outfil.write("Accuracy Rate: {}\n".format(accuracy_rate))
+            outfil.write("Error Rate: {}\n".format(1-accuracy_rate))
+            outfil.write("Recall/True Positive Rate: {}\n".format(recall))
+            outfil.write("Specificity/True Negative Rate: {}\n".format(specificity))
+            outfil.write("Precision/Positive Predictive Value: {}\n".format(precision))
+            outfil.write("False Positive Rate: {}\n".format(fpr))
+
+            ALL_ACCURACIES.append(accuracy_rate)
+            ALL_ERROR_RATES.append(1-accuracy_rate)
+            ALL_RECALL.append(recall)
+            ALL_SPECIFICITY.append(specificity)
+            ALL_PRECISION.append(precision)
+            ALL_FPR.append(fpr)
+
+            print("Finished writing to file {}".format(log_file_name))
+        except KeyError:
+            print("Did not find ground truth for file:{}".format(video_key))
     
+    outfil.write("\nAVERAGE ACCURACY RATE: {}\n".format(avg(ALL_ACCURACIES)))
+    outfil.write("AVERAGE ERROR RATE: {}\n".format(avg(ALL_ERROR_RATES)))
+    outfil.write("AVERAGE RECALL: {}\n".format(avg(ALL_RECALL)))
+    outfil.write("AVERAGE SPECIFICITY: {}\n".format(avg(ALL_SPECIFICITY)))
+    outfil.write("AVERAGE PRECISION: {}\n".format(avg(ALL_PRECISION)))
+    outfil.write("AVERAGE FPR: {}\n".format(avg(ALL_FPR)))
+# %%[markdown]
+# ## Cleanup Files
+import os, shutil
+folder = os.path.join(TEST_VIDEO_DIR, ".analyzed_output")
+for filename in os.listdir(folder):
+    file_path = os.path.join(folder, filename)
+    try:
+        if os.path.isfile(file_path) or os.path.islink(file_path):
+            os.unlink(file_path)
+        elif os.path.isdir(file_path):
+            shutil.rmtree(file_path)
+    except Exception as e:
+        print('Failed to delete %s. Reason: %s' % (file_path, e))
+
+# %%
