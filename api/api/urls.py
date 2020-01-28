@@ -26,6 +26,7 @@ urlpatterns = [
     path('frame/timestamp', views.frameTimestampRange.as_view()),
     path('frame/<int:pk>/', views.frameDetail.as_view()),
     path('video/', views.videoList.as_view()),
+    path('video/<int:pk>/', views.videoDetail.as_view()),
     path('video/<int:videoPK>/frame/', views.videoFrameDetail.as_view()),
     path('video/submit/', views.detectSubmit.as_view())
 ]

@@ -1,18 +1,8 @@
 ######################################################################################################################################################
 # Not working yet, need to get ground truth from chee yiing first 
 ######################################################################################################################################################
-
-
 # To add a new cell, type '# %%'
 # To add a new markdown cell, type '# %% [markdown]'
-# %% Change working directory from the workspace root to the ipynb file location. Turn this addition off with the DataScience.changeDirOnImportExport setting
-# ms-python.python added
-import os
-try:
-	os.chdir(os.path.join(os.getcwd(), 'samples'))
-	print(os.getcwd())
-except:
-	pass
 # %%
 from IPython import get_ipython
 
@@ -32,15 +22,14 @@ import matplotlib.pyplot as plt
 from math import log
 
 # Root directory of the project
-ROOT_DIR = os.path.abspath("../")
+ROOT_DIR = os.path.abspath("../mask")
 
 # Import Mask RCNN
 sys.path.append(ROOT_DIR)  # To find local version of the library
 from mrcnn import utils
 import mrcnn.model as modellib
-from mrcnn import visualize
 # Import COCO config
-sys.path.append(os.path.join(ROOT_DIR, "samples/coco/"))  # To find local version
+# sys.path.append(os.path.join(ROOT_DIR, "samples/coco/"))  # To find local version
 import coco
 
 get_ipython().run_line_magic('matplotlib', 'inline')
