@@ -5,12 +5,14 @@ import sys, os
 """
 Middleware to configure the server to spin up and load the Tensorflow models upon starting.
 """
+
 class AppConfig(AppConfig):
     name = 'app'
 
     """
     Once the Django server app has started and is ready, load the models
     """
+
     def ready(self):
         # Checks if the server run is the API or the queue. If its the API, we dont need to load models to return True
         if 'process_tasks' not in sys.argv:

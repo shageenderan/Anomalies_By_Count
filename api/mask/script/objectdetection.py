@@ -215,10 +215,12 @@ def sum_list(lst):
     filtered = list(filter(lambda x: x is not None, lst))
     return sum(filtered)
 
+
 # Function to be called by queued tasks for existing video files
 def object_detection_file(file_name, video_id):
     path = os.path.join(VIDEO_DIR, file_name)
     object_detection(path, video_id)
+
 
 # Function to be called by queued tasks for URL video files that need to be downloaded
 def object_detection_url(url, video_id):

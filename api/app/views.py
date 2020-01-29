@@ -194,6 +194,7 @@ class videoFrameDetail(APIView):
         except Frame.DoesNotExist:
             raise HttpResponse(status=200)
 
+
 # API logic for url /video/submit/
 class detectSubmit(APIView):
 
@@ -226,6 +227,7 @@ class detectSubmit(APIView):
 def detection_queue_url(url, idVal):
     print("URL:{}".format(url), datetime.datetime.now())
     object_detection_url(url, idVal)
+
 
 # Django background task placed on the queue to be called when scheduled
 @background(schedule=0)
