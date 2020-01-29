@@ -90,16 +90,6 @@ DATABASES = {
     }
 }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'team2bdb',
-#         'USER': 'admin',
-#         'PASSWORD': 'Team2bdb',
-#         'HOST': 'localhost',
-#     }
-# }
-
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 

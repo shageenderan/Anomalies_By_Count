@@ -1,35 +1,36 @@
+# Django imports
 from django.shortcuts import render
-
 from django.http import HttpResponse, Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from background_task import background
+
+# Local file imports
 from .models import Frame, Video
 from .serializer import frameSerializer, videoSerializer
+from mask.script.objectdetection import check_video_exists, object_detection_url, object_detection_file
+
+# External library imports
 import datetime
 import pytz
 import requests
-from mask.script.objectdetection import check_video_exists, object_detection_url, object_detection_file
-from background_task import background
 
-# Create your views here.
+# This file contains the functions necessary to create Django views used by the URL for parsing API requests made.
+
 utcTimezone = pytz.utc
 
-fileExtensions = {
-    "x-flv": ".flv",
-    "mp4": ".mp4",
-    "quicktime": ".mov",
-    "x-msvideo": ".avi",
-    "x-ms-wmv": ".wmv"
-}
 
+# API logic for URL /frames/
 class frameList(APIView):
 
+    # GET - Returns list of all frames in DB
     def get(self, request):
         frames = Frame.objects.all()
         serializer = frameSerializer(frames, many=True)
         return Response(serializer.data)
 
+    # POST - Create a new frame and add it to DB
     def post(self, request):
         serializer = frameSerializer(data=request.data)
         if serializer.is_valid():
@@ -39,7 +40,10 @@ class frameList(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# API logic for URL /frame/filter(?date=YYYYmmdd(20200127). No date given will return all frames on any date
 class frameDate(APIView):
+
+    # GET - returns list of frames which occurs on the date given
     def get(self, request):
         date = request.GET.get('date', None)
         dateObject = datetime.datetime.strptime(date, '%Y%m%d')
@@ -49,7 +53,11 @@ class frameDate(APIView):
         return Response(serializer.data)
 
 
+# API logic for URL /frame/date(?to=YYYYmmddHHMMSS(20200127000000)&from=YYYYmmddHHMMSS(20190127235959)). Can use both,
+# either, or no query arguments.
 class frameDateRange(APIView):
+
+    # GET - returns the list of frames falling within the dates given in the query arguments
     def get(self, request):
         start = request.GET.get('from', None)
         end = request.GET.get('to', None)
@@ -66,7 +74,11 @@ class frameDateRange(APIView):
         return Response(serializer.data)
 
 
+# API logic for URL /frame/timestamp(?from=number(int or float)&to=number(int or float). Can use both,
+# either, or no query arguments.
 class frameTimestampRange(APIView):
+
+    # GET - returns the list of frames falling within the timestamp attribute of the frame.
     def get(self, request):
         start = request.GET.get('from', None)
         end = request.GET.get('to', None)
@@ -83,7 +95,10 @@ class frameTimestampRange(APIView):
         return Response(serializer.data)
 
 
+# API logic for URL /frame/{id:number}/. Provides basic CRUD operations for singular Frame objects.
 class frameDetail(APIView):
+
+    # GET - returns the frame object with the given id
     def get(self, request, pk):
         try:
             frame = Frame.objects.get(pk=pk)
@@ -92,6 +107,7 @@ class frameDetail(APIView):
         except Frame.DoesNotExist:
             raise Http404
 
+    # PUT - updates the object with the given id with values given in the API request body
     def put(self, request, pk):
         try:
             frame = Frame.objects.get(pk=pk)
@@ -102,6 +118,7 @@ class frameDetail(APIView):
         except Frame.DoesNotExist:
             raise Http404
 
+    # DELETE - deletes the object with the given id from the DB
     def delete(self, request, pk):
         try:
             frame = Frame.objects.get(pk=pk)
@@ -111,14 +128,20 @@ class frameDetail(APIView):
             raise Http404
 
 
+# API logic for URL /video/
 class videoList(APIView):
+
+    # GET - returns list of all videos in the DB
     def get(self, request):
         video = Video.objects.all()
         serializer = videoSerializer(video, many=True)
         return Response(serializer.data)
 
 
+# API logic for URL /video/{id:number}/. Provides basic CRUD operations for singular Video objects.
 class videoDetail(APIView):
+
+    # GET - returns the Video object with the given id
     def get(self, request, pk):
         try:
             video = Video.objects.get(pk=pk)
@@ -127,6 +150,7 @@ class videoDetail(APIView):
         except Video.DoesNotExist:
             raise Http404
 
+    # PUT - updates the Video with the given id wth the values provided in the API request
     def put(self, request, pk):
         try:
             video = Video.objects.get(pk=pk)
@@ -137,6 +161,7 @@ class videoDetail(APIView):
         except Video.DoesNotExist:
             raise Http404
 
+    # DELETE - deletes the Video object with the given id from the DB.
     def delete(self, request, pk):
         try:
             video = Video.objects.get(pk=pk)
@@ -145,7 +170,11 @@ class videoDetail(APIView):
         except Video.DoesNotExist:
             raise Http404
 
+
+# API logic for the URL /video/{id:number}/frame(?to=number&from=number). Can use both, either, or no query arguments.
 class videoFrameDetail(APIView):
+
+    # GET - return a list of frames from the video with the given video id.
     def get(self, request, videoPK):
         try:
             frames = Frame.objects.filter(video=videoPK)
@@ -165,9 +194,11 @@ class videoFrameDetail(APIView):
         except Frame.DoesNotExist:
             raise HttpResponse(status=200)
 
-
+# API logic for url /video/submit/
 class detectSubmit(APIView):
 
+    # POST - creates a new queue task to run object detection using video provided by the link. Returns the video id of
+    # the object created for future API requests
     def post(self, request):
         serializer = videoSerializer(data=request.data)
         if serializer.is_valid():
@@ -190,12 +221,13 @@ class detectSubmit(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# Django background task placed on the queue to be called when scheduled
 @background(schedule=0)
 def detection_queue_url(url, idVal):
     print("URL:{}".format(url), datetime.datetime.now())
     object_detection_url(url, idVal)
 
-
+# Django background task placed on the queue to be called when scheduled
 @background(schedule=0)
 def detection_queue_file(filename, idVal):
     print("File:{}".format(filename), datetime.datetime.now())

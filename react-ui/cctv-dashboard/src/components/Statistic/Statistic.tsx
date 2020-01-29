@@ -56,6 +56,8 @@ class Statistic extends Component<StatisticProps, StatisticState> {
         showNav: false
       }
   }
+
+  // Function to maximize and minimize statistic charts on click
   click = id => {
     const charts = Object.create(this.state.charts);
     let showNav = false;

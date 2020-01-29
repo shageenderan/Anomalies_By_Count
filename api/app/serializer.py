@@ -1,7 +1,10 @@
 from rest_framework import serializers
 from .models import Frame, Video
 
-
+"""
+This file contains the serializer classes that allows for simplified conversion between Python object and 
+JSON defined objects
+"""
 class frameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Frame

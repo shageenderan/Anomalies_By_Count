@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button";
 import Table from "./Table/Table";
 import axios from "axios";
 
+// Get API URL from environment variable file
 axios.defaults.baseURL = process.env.REACT_APP_API_URL
 
 interface AnalysisProps {
@@ -70,6 +71,8 @@ class Analysis extends React.Component<AnalysisProps, AnalysisState> {
         }
   };
 
+  // Function to refresh the data shown in the table. Needs to be manual because refreshing table data will reset the
+  // viewing state causing potential issues for users
   refreshTableData = (id) => {
     const players = this.props.data
     let videoId = players[id].videoId
@@ -85,17 +88,19 @@ class Analysis extends React.Component<AnalysisProps, AnalysisState> {
     }
   }
 
+
+  // Function to change component shown depending on time chosen
   handleChangeTimeSelection = values => {
     this.setState({ timeSelection: values.length ? values[0] : null });
   }
 
+  // Function to change component shown between chart and table
   handleChangeChartType = values => {
-    console.log('change chart type:');
-    console.log(values);
     this.setState({ chartType: values.length ? values[0] : null });
   }
 
   componentDidMount(){
+    // Upon component mounting, refresh the table once to show latest data
     const players = this.props.data
     for (let key in players){
       this.refreshTableData(key)
