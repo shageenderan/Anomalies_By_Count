@@ -1,0 +1,1 @@
+In order to start testing, first create a directory called "videos" as a child of this one. Then download the dataset from here (https://drive.google.com/open?id=1H_C918lbUS6DVKGGc3hlZ8UxaiScNq4I) straight into the directory

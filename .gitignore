@@ -4,4 +4,6 @@ api/videos
 env
 **/migrations
 **/node_modules
-**/__pycache__
+**/__pycache_
+tests/videos/
+tests/mask/mask_rcnn_coco.h5

@@ -207,6 +207,7 @@ class App extends React.Component<{}, AppState> {
     players[playerId].showUrl = "hidden"
     this.setState({ players });
     let that = this
+    console.log("url >", this.state.players[playerId].url)
     axios.post('/video/submit/',{ isUrl: 'True', url: this.state.players[playerId].url })
          .then(res => {
             that.state.players[playerId].videoId = res.data.id
