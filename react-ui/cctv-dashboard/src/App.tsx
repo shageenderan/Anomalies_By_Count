@@ -31,6 +31,7 @@ const styles = makeStyles(theme => ({
   }
 }));
 
+// Get the API URL from the .env environment variable file
 axios.defaults.baseURL = process.env.REACT_APP_API_URL
 
 const items = [
@@ -75,6 +76,7 @@ interface AppState {
 }
 
 class App extends React.Component<{}, AppState> {
+  // Interval variable to keep track of intervals to be executed
   interval
 
   constructor(props: {}) {
@@ -130,6 +132,7 @@ class App extends React.Component<{}, AppState> {
   }
 
   componentDidMount() {
+    // If the component has mounted on the UI, poll the back-end every second to get new data for each video playing
     this.interval = setInterval(() =>
     {
       for (let key in this.state.players){
@@ -168,9 +171,12 @@ class App extends React.Component<{}, AppState> {
   }
 
   componentWillUnmount() {
+    // When the component is unmounted, clear the interval so that the API is no longer polled
     clearInterval(this.interval);
   }
 
+
+  // Function to show notification popup
   notifyAnomaly = (id, time) => toast("Anomaly detected in Camera "+id+" at time "+time,
                 { autoClose: 8000,
                 onClick:() => {
@@ -179,17 +185,20 @@ class App extends React.Component<{}, AppState> {
                 }
                 });
 
+
+  // Function to move current page
   navigatePage = () => {
     history.push('/cameras')
   }
 
-
+  // Function to load the video players to the UI
   loadVideo = (e) => {
     let players = {...this.state.players}
     players[e.target.id].url = e.target.value
     this.setState({ players });
   }
 
+  // Function to show the camera and hide the URL input after a URL has been entered.
   showCamera = (e) => {
     e.preventDefault();
     let players = {...this.state.players}
@@ -206,7 +215,7 @@ class App extends React.Component<{}, AppState> {
             })
   }
 
-
+  // Function to minimize and maximise the video cameras upon clicking
   toggleCameraSize = (id:string) => {
     const players = {...this.state.players};
     for (let key in this.state.players) {
