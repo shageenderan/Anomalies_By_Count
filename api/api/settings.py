@@ -84,9 +84,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'csp',
-        'USER': 'admin2B@csp2b',
+        'USER': 'team2b@csp2',
         'PASSWORD': 'Monash20192B',
-        'HOST': 'csp2b.mysql.database.azure.com',
+        'HOST': 'csp2.mysql.database.azure.com',
     }
 }
 
