@@ -1,0 +1,17 @@
+numpy<1.17
+scipy
+Pillow
+cython
+matplotlib
+scikit-image
+tensorflow-gpu==1.12.0
+keras==2.2.4
+opencv-python
+h5py
+imgaug
+IPython[all]
+django
+djangorestframework
+django-background-tasks
+django-cors-headers
+mysqlclient
