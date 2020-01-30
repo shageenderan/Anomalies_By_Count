@@ -84,11 +84,22 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'csp',
-        'USER': 'admin2B@csp2b',
+        'USER': 'team2b@csp2',
         'PASSWORD': 'Monash20192B',
-        'HOST': 'csp2b.mysql.database.azure.com',
+        'HOST': 'csp2.mysql.database.azure.com',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'team2bdb',
+#         'USER': 'admin',
+#         'PASSWORD': 'Team2bdb',
+#         'HOST': 'localhost',
+#     }
+# }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators

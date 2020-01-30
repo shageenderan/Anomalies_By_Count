@@ -21,9 +21,9 @@ from app import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('frame/', views.frameList.as_view()),
-    path('frame/filter', views.frameDate.as_view()),
-    path('frame/date', views.frameDateRange.as_view()),
-    path('frame/timestamp', views.frameTimestampRange.as_view()),
+    path('frame/filter/', views.frameDate.as_view()),
+    path('frame/date/', views.frameDateRange.as_view()),
+    path('frame/timestamp/', views.frameTimestampRange.as_view()),
     path('frame/<int:pk>/', views.frameDetail.as_view()),
     path('video/', views.videoList.as_view()),
     path('video/<int:pk>/', views.videoDetail.as_view()),
