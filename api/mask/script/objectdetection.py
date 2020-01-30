@@ -224,14 +224,14 @@ def object_detection(file_location, video_id):
 
     global FRAME_COUNT, WINDOW_SIZE, COUNT_WINDOW, THRESHOLD, ALL_COUNT, EMAS, ANOMALIES, DIFFERENCES, MIN_THRESHOLD
 
-    FRAME_COUNT = 0
-    WINDOW_SIZE = 20
-    COUNT_WINDOW = [None]*WINDOW_SIZE
-    MIN_THRESHOLD = 0.3
-    ALL_COUNT = []
-    EMAS = []
-    DIFFERENCES = []
-    ANOMALIES = []
+    FRAME_COUNT = 0                     # Keeps track of the current frame no.
+    WINDOW_SIZE = 20                    # Size of the sliding window
+    COUNT_WINDOW = [None]*WINDOW_SIZE   # Sliding window - people count values are stored in this array in a sliding window manner
+    MIN_THRESHOLD = 0.3                 # Minimum threshold for determining an anomaly
+    ALL_COUNT = []                      # Array containing the people counted for every frame in a video
+    EMAS = []                           # Array containing the ema for ever frame in a video
+    DIFFERENCES = []                    # Array containing the difference in ema between two adjacent frames in a video. Used only for graphing purposes
+    ANOMALIES = []                      # Array containing all frame no. where an anomaly had been detected, if empty then no anomaly has been detected
 
     #################################### Setting up parameters ####################################
     frames = []
