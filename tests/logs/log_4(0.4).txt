@@ -1,0 +1,527 @@
+earthquake_4.mp4
+Total Frames: 143
+[TRUE NEGATIVE] Frames correctly not predicted: 140
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: [45]
+[FALSE NEGATIVE] Failed To Predict Anomalies At: []
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[14, 58]
+Accuracy Rate: 0.986013986013986
+Error Rate: 0.013986013986013957
+Recall/True Positive Rate: 1.0
+Specificity/True Negative Rate: 0.9859154929577465
+Precision/Positive Predictive Value: 0.3333333333333333
+False Positive Rate: 0.014084507042253521
+
+robbery_3.mp4
+Total Frames: 96
+[TRUE NEGATIVE] Frames correctly not predicted: 95
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: [4]
+[FALSE NEGATIVE] Failed To Predict Anomalies At: []
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[]
+Accuracy Rate: 1.0
+Error Rate: 0.0
+Recall/True Positive Rate: 1.0
+Specificity/True Negative Rate: 1.0
+Precision/Positive Predictive Value: 1.0
+False Positive Rate: 0.0
+
+normal_6.mp4
+Total Frames: 127
+[TRUE NEGATIVE] Frames correctly not predicted: 108
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: []
+[FALSE NEGATIVE] Failed To Predict Anomalies At: []
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[2, 4, 7, 8, 9, 12, 15, 17, 21, 31, 35, 44, 59, 65, 67, 68, 75, 108, 110]
+Accuracy Rate: 0.8503937007874016
+Error Rate: 0.14960629921259838
+Recall/True Positive Rate: 1.0
+Specificity/True Negative Rate: 0.8503937007874016
+Precision/Positive Predictive Value: 0.0
+False Positive Rate: 0.14960629921259844
+
+shooting_2.mp4
+Total Frames: 68
+[TRUE NEGATIVE] Frames correctly not predicted: 57
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: [1]
+[FALSE NEGATIVE] Failed To Predict Anomalies At: [44, 64]
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[2, 3, 4, 5, 6, 7, 38, 40, 41]
+Accuracy Rate: 0.8405797101449275
+Error Rate: 0.1594202898550725
+Recall/True Positive Rate: 0.3333333333333333
+Specificity/True Negative Rate: 0.8636363636363636
+Precision/Positive Predictive Value: 0.1
+False Positive Rate: 0.13636363636363635
+
+normal_10.avi
+Total Frames: 100
+[TRUE NEGATIVE] Frames correctly not predicted: 98
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: []
+[FALSE NEGATIVE] Failed To Predict Anomalies At: []
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[1, 4]
+Accuracy Rate: 0.98
+Error Rate: 0.020000000000000018
+Recall/True Positive Rate: 1.0
+Specificity/True Negative Rate: 0.98
+Precision/Positive Predictive Value: 0.0
+False Positive Rate: 0.02
+
+robbery_2.mp4
+Total Frames: 155
+[TRUE NEGATIVE] Frames correctly not predicted: 154
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: []
+[FALSE NEGATIVE] Failed To Predict Anomalies At: [21]
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[]
+Accuracy Rate: 0.9935483870967742
+Error Rate: 0.006451612903225823
+Recall/True Positive Rate: 0.0
+Specificity/True Negative Rate: 1.0
+Precision/Positive Predictive Value: 0.0
+False Positive Rate: 0.0
+
+normal_8.avi
+Total Frames: 201
+[TRUE NEGATIVE] Frames correctly not predicted: 201
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: []
+[FALSE NEGATIVE] Failed To Predict Anomalies At: []
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[]
+Accuracy Rate: 1.0
+Error Rate: 0.0
+Recall/True Positive Rate: 1.0
+Specificity/True Negative Rate: 1.0
+Precision/Positive Predictive Value: 0.0
+False Positive Rate: 0.0
+
+explosion_2.mp4
+Total Frames: 357
+[TRUE NEGATIVE] Frames correctly not predicted: 309
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: [4, 219]
+[FALSE NEGATIVE] Failed To Predict Anomalies At: []
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[1, 2, 10, 17, 39, 52, 75, 77, 135, 163, 174, 181, 190, 193, 194, 218, 221, 222, 226, 234, 236, 237, 238, 244, 245, 246, 251, 257, 272, 280, 282, 283, 285, 289, 293, 304, 305, 309, 313, 321, 322, 324, 334, 340, 344, 353]
+Accuracy Rate: 0.8711484593837535
+Error Rate: 0.12885154061624648
+Recall/True Positive Rate: 1.0
+Specificity/True Negative Rate: 0.8704225352112676
+Precision/Positive Predictive Value: 0.041666666666666664
+False Positive Rate: 0.1295774647887324
+
+explosion_5.mp4
+Total Frames: 171
+[TRUE NEGATIVE] Frames correctly not predicted: 168
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: []
+[FALSE NEGATIVE] Failed To Predict Anomalies At: [30, 84]
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[1]
+Accuracy Rate: 0.9824561403508771
+Error Rate: 0.01754385964912286
+Recall/True Positive Rate: 0.0
+Specificity/True Negative Rate: 0.9940828402366864
+Precision/Positive Predictive Value: 0.0
+False Positive Rate: 0.005917159763313609
+
+earthquake_3.mp4
+Total Frames: 154
+[TRUE NEGATIVE] Frames correctly not predicted: 150
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: []
+[FALSE NEGATIVE] Failed To Predict Anomalies At: [28]
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[1, 2, 143]
+Accuracy Rate: 0.974025974025974
+Error Rate: 0.025974025974025983
+Recall/True Positive Rate: 0.0
+Specificity/True Negative Rate: 0.9803921568627451
+Precision/Positive Predictive Value: 0.0
+False Positive Rate: 0.0196078431372549
+
+fight_6.mp4
+Total Frames: 84
+[TRUE NEGATIVE] Frames correctly not predicted: 75
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: []
+[FALSE NEGATIVE] Failed To Predict Anomalies At: [13]
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[2, 30, 31, 33, 41, 45, 68, 76]
+Accuracy Rate: 0.8928571428571429
+Error Rate: 0.1071428571428571
+Recall/True Positive Rate: 0.0
+Specificity/True Negative Rate: 0.9036144578313253
+Precision/Positive Predictive Value: 0.0
+False Positive Rate: 0.0963855421686747
+
+normal_3.mp4
+Total Frames: 55
+[TRUE NEGATIVE] Frames correctly not predicted: 47
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: []
+[FALSE NEGATIVE] Failed To Predict Anomalies At: []
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[1, 4, 6, 7, 8, 10, 12, 29]
+Accuracy Rate: 0.8545454545454545
+Error Rate: 0.1454545454545455
+Recall/True Positive Rate: 1.0
+Specificity/True Negative Rate: 0.8545454545454545
+Precision/Positive Predictive Value: 0.0
+False Positive Rate: 0.14545454545454545
+
+accident_1.mp4
+Total Frames: 138
+[TRUE NEGATIVE] Frames correctly not predicted: 124
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: [24, 57]
+[FALSE NEGATIVE] Failed To Predict Anomalies At: []
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[1, 3, 4, 5, 6, 7, 11, 20, 56, 63, 121, 131]
+Accuracy Rate: 0.9130434782608695
+Error Rate: 0.08695652173913049
+Recall/True Positive Rate: 1.0
+Specificity/True Negative Rate: 0.9117647058823529
+Precision/Positive Predictive Value: 0.14285714285714285
+False Positive Rate: 0.08823529411764706
+
+shooting_4.mp4
+Total Frames: 48
+[TRUE NEGATIVE] Frames correctly not predicted: 43
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: [5]
+[FALSE NEGATIVE] Failed To Predict Anomalies At: []
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[1, 2, 4, 10]
+Accuracy Rate: 0.9166666666666666
+Error Rate: 0.08333333333333337
+Recall/True Positive Rate: 1.0
+Specificity/True Negative Rate: 0.9148936170212766
+Precision/Positive Predictive Value: 0.2
+False Positive Rate: 0.0851063829787234
+
+normal_1.mp4
+Total Frames: 50
+[TRUE NEGATIVE] Frames correctly not predicted: 41
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: []
+[FALSE NEGATIVE] Failed To Predict Anomalies At: []
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[1, 2, 14, 22, 29, 30, 33, 36, 49]
+Accuracy Rate: 0.82
+Error Rate: 0.18000000000000005
+Recall/True Positive Rate: 1.0
+Specificity/True Negative Rate: 0.82
+Precision/Positive Predictive Value: 0.0
+False Positive Rate: 0.18
+
+earthquake_2.mp4
+Total Frames: 179
+[TRUE NEGATIVE] Frames correctly not predicted: 175
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: []
+[FALSE NEGATIVE] Failed To Predict Anomalies At: [33, 54, 134]
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[1]
+Accuracy Rate: 0.9776536312849162
+Error Rate: 0.022346368715083775
+Recall/True Positive Rate: 0.0
+Specificity/True Negative Rate: 0.9943181818181818
+Precision/Positive Predictive Value: 0.0
+False Positive Rate: 0.005681818181818182
+
+accident_2.mp4
+Total Frames: 188
+[TRUE NEGATIVE] Frames correctly not predicted: 183
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: []
+[FALSE NEGATIVE] Failed To Predict Anomalies At: [39]
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[1, 143, 144, 146]
+Accuracy Rate: 0.973404255319149
+Error Rate: 0.02659574468085102
+Recall/True Positive Rate: 0.0
+Specificity/True Negative Rate: 0.9786096256684492
+Precision/Positive Predictive Value: 0.0
+False Positive Rate: 0.0213903743315508
+
+normal_7.avi
+Total Frames: 195
+[TRUE NEGATIVE] Frames correctly not predicted: 194
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: []
+[FALSE NEGATIVE] Failed To Predict Anomalies At: []
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[1]
+Accuracy Rate: 0.9948717948717949
+Error Rate: 0.00512820512820511
+Recall/True Positive Rate: 1.0
+Specificity/True Negative Rate: 0.9948717948717949
+Precision/Positive Predictive Value: 0.0
+False Positive Rate: 0.005128205128205128
+
+fight_5.mp4
+Total Frames: 564
+[TRUE NEGATIVE] Frames correctly not predicted: 561
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: []
+[FALSE NEGATIVE] Failed To Predict Anomalies At: [76, 123, 441]
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[]
+Accuracy Rate: 0.9946808510638298
+Error Rate: 0.005319148936170248
+Recall/True Positive Rate: 0.0
+Specificity/True Negative Rate: 1.0
+Precision/Positive Predictive Value: 0.0
+False Positive Rate: 0.0
+
+shooting_1.mp4
+Total Frames: 130
+[TRUE NEGATIVE] Frames correctly not predicted: 128
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: [5]
+[FALSE NEGATIVE] Failed To Predict Anomalies At: []
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[41]
+Accuracy Rate: 0.9923076923076923
+Error Rate: 0.007692307692307665
+Recall/True Positive Rate: 1.0
+Specificity/True Negative Rate: 0.9922480620155039
+Precision/Positive Predictive Value: 0.5
+False Positive Rate: 0.007751937984496124
+
+normal_11.avi
+Total Frames: 100
+[TRUE NEGATIVE] Frames correctly not predicted: 98
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: []
+[FALSE NEGATIVE] Failed To Predict Anomalies At: []
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[1, 3]
+Accuracy Rate: 0.98
+Error Rate: 0.020000000000000018
+Recall/True Positive Rate: 1.0
+Specificity/True Negative Rate: 0.98
+Precision/Positive Predictive Value: 0.0
+False Positive Rate: 0.02
+
+fight_1.mp4
+Total Frames: 119
+[TRUE NEGATIVE] Frames correctly not predicted: 113
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: [1]
+[FALSE NEGATIVE] Failed To Predict Anomalies At: [59]
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[2, 5, 8, 16, 20]
+Accuracy Rate: 0.95
+Error Rate: 0.050000000000000044
+Recall/True Positive Rate: 0.5
+Specificity/True Negative Rate: 0.9576271186440678
+Precision/Positive Predictive Value: 0.16666666666666666
+False Positive Rate: 0.0423728813559322
+
+normal_4.mp4
+Total Frames: 14
+[TRUE NEGATIVE] Frames correctly not predicted: 5
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: []
+[FALSE NEGATIVE] Failed To Predict Anomalies At: []
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[1, 2, 3, 4, 5, 6, 9, 10, 11]
+Accuracy Rate: 0.35714285714285715
+Error Rate: 0.6428571428571428
+Recall/True Positive Rate: 1.0
+Specificity/True Negative Rate: 0.35714285714285715
+Precision/Positive Predictive Value: 0.0
+False Positive Rate: 0.6428571428571429
+
+normal_9.avi
+Total Frames: 201
+[TRUE NEGATIVE] Frames correctly not predicted: 201
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: []
+[FALSE NEGATIVE] Failed To Predict Anomalies At: []
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[]
+Accuracy Rate: 1.0
+Error Rate: 0.0
+Recall/True Positive Rate: 1.0
+Specificity/True Negative Rate: 1.0
+Precision/Positive Predictive Value: 0.0
+False Positive Rate: 0.0
+
+robbery_5.mp4
+Total Frames: 132
+[TRUE NEGATIVE] Frames correctly not predicted: 131
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: []
+[FALSE NEGATIVE] Failed To Predict Anomalies At: [14]
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[]
+Accuracy Rate: 0.9924242424242424
+Error Rate: 0.007575757575757569
+Recall/True Positive Rate: 0.0
+Specificity/True Negative Rate: 1.0
+Precision/Positive Predictive Value: 0.0
+False Positive Rate: 0.0
+
+earthquake_6.mp4
+Total Frames: 71
+[TRUE NEGATIVE] Frames correctly not predicted: 57
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: [1]
+[FALSE NEGATIVE] Failed To Predict Anomalies At: [36, 64]
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[3, 4, 5, 7, 8, 9, 10, 15, 17, 19, 23, 39]
+Accuracy Rate: 0.8055555555555556
+Error Rate: 0.19444444444444442
+Recall/True Positive Rate: 0.3333333333333333
+Specificity/True Negative Rate: 0.8260869565217391
+Precision/Positive Predictive Value: 0.07692307692307693
+False Positive Rate: 0.17391304347826086
+
+fight_2.mp4
+Total Frames: 93
+[TRUE NEGATIVE] Frames correctly not predicted: 88
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: []
+[FALSE NEGATIVE] Failed To Predict Anomalies At: [22]
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[1, 2, 3, 4]
+Accuracy Rate: 0.946236559139785
+Error Rate: 0.053763440860215006
+Recall/True Positive Rate: 0.0
+Specificity/True Negative Rate: 0.9565217391304348
+Precision/Positive Predictive Value: 0.0
+False Positive Rate: 0.043478260869565216
+
+robbery_4.mp4
+Total Frames: 201
+[TRUE NEGATIVE] Frames correctly not predicted: 200
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: []
+[FALSE NEGATIVE] Failed To Predict Anomalies At: [33]
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[]
+Accuracy Rate: 0.9950248756218906
+Error Rate: 0.00497512437810943
+Recall/True Positive Rate: 0.0
+Specificity/True Negative Rate: 1.0
+Precision/Positive Predictive Value: 0.0
+False Positive Rate: 0.0
+
+normal_5.mp4
+Total Frames: 196
+[TRUE NEGATIVE] Frames correctly not predicted: 194
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: []
+[FALSE NEGATIVE] Failed To Predict Anomalies At: []
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[1, 2]
+Accuracy Rate: 0.9897959183673469
+Error Rate: 0.010204081632653073
+Recall/True Positive Rate: 1.0
+Specificity/True Negative Rate: 0.9897959183673469
+Precision/Positive Predictive Value: 0.0
+False Positive Rate: 0.01020408163265306
+
+earthquake_1.mp4
+Total Frames: 118
+[TRUE NEGATIVE] Frames correctly not predicted: 116
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: []
+[FALSE NEGATIVE] Failed To Predict Anomalies At: [11]
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[4]
+Accuracy Rate: 0.9830508474576272
+Error Rate: 0.016949152542372836
+Recall/True Positive Rate: 0.0
+Specificity/True Negative Rate: 0.9914529914529915
+Precision/Positive Predictive Value: 0.0
+False Positive Rate: 0.008547008547008548
+
+fight_4.mp4
+Total Frames: 104
+[TRUE NEGATIVE] Frames correctly not predicted: 86
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: [12]
+[FALSE NEGATIVE] Failed To Predict Anomalies At: []
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[2, 3, 5, 17, 24, 25, 51, 68, 80, 96, 97, 98, 99, 100, 101, 102, 103]
+Accuracy Rate: 0.8365384615384616
+Error Rate: 0.16346153846153844
+Recall/True Positive Rate: 1.0
+Specificity/True Negative Rate: 0.8349514563106796
+Precision/Positive Predictive Value: 0.05555555555555555
+False Positive Rate: 0.1650485436893204
+
+earthquake_5.mp4
+Total Frames: 63
+[TRUE NEGATIVE] Frames correctly not predicted: 60
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: []
+[FALSE NEGATIVE] Failed To Predict Anomalies At: [7]
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[2, 4]
+Accuracy Rate: 0.9523809523809523
+Error Rate: 0.04761904761904767
+Recall/True Positive Rate: 0.0
+Specificity/True Negative Rate: 0.967741935483871
+Precision/Positive Predictive Value: 0.0
+False Positive Rate: 0.03225806451612903
+
+explosion_3.mp4
+Total Frames: 97
+[TRUE NEGATIVE] Frames correctly not predicted: 93
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: [1]
+[FALSE NEGATIVE] Failed To Predict Anomalies At: []
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[2, 4, 13, 14]
+Accuracy Rate: 0.9591836734693877
+Error Rate: 0.04081632653061229
+Recall/True Positive Rate: 1.0
+Specificity/True Negative Rate: 0.9587628865979382
+Precision/Positive Predictive Value: 0.2
+False Positive Rate: 0.041237113402061855
+
+explosion_1.mp4
+Total Frames: 69
+[TRUE NEGATIVE] Frames correctly not predicted: 66
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: []
+[FALSE NEGATIVE] Failed To Predict Anomalies At: [14]
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[1, 8]
+Accuracy Rate: 0.9565217391304348
+Error Rate: 0.04347826086956519
+Recall/True Positive Rate: 0.0
+Specificity/True Negative Rate: 0.9705882352941176
+Precision/Positive Predictive Value: 0.0
+False Positive Rate: 0.029411764705882353
+
+robbery_1.mp4
+Total Frames: 179
+[TRUE NEGATIVE] Frames correctly not predicted: 178
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: []
+[FALSE NEGATIVE] Failed To Predict Anomalies At: [31]
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[]
+Accuracy Rate: 0.994413407821229
+Error Rate: 0.005586592178770999
+Recall/True Positive Rate: 0.0
+Specificity/True Negative Rate: 1.0
+Precision/Positive Predictive Value: 0.0
+False Positive Rate: 0.0
+
+shooting_3.mp4
+Total Frames: 459
+[TRUE NEGATIVE] Frames correctly not predicted: 439
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: []
+[FALSE NEGATIVE] Failed To Predict Anomalies At: [21, 184]
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[1, 3, 4, 5, 12, 13, 26, 30, 31, 37, 39, 45, 310, 312, 313, 314, 315, 316]
+Accuracy Rate: 0.9564270152505446
+Error Rate: 0.04357298474945537
+Recall/True Positive Rate: 0.0
+Specificity/True Negative Rate: 0.9606126914660832
+Precision/Positive Predictive Value: 0.0
+False Positive Rate: 0.03938730853391685
+
+explosion_4.mp4
+Total Frames: 226
+[TRUE NEGATIVE] Frames correctly not predicted: 220
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: [13]
+[FALSE NEGATIVE] Failed To Predict Anomalies At: []
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[1, 3, 12, 114, 116]
+Accuracy Rate: 0.9778761061946902
+Error Rate: 0.02212389380530977
+Recall/True Positive Rate: 1.0
+Specificity/True Negative Rate: 0.9777777777777777
+Precision/Positive Predictive Value: 0.16666666666666666
+False Positive Rate: 0.022222222222222223
+
+normal_12.avi
+Total Frames: 157
+[TRUE NEGATIVE] Frames correctly not predicted: 155
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: []
+[FALSE NEGATIVE] Failed To Predict Anomalies At: []
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[1, 6]
+Accuracy Rate: 0.9872611464968153
+Error Rate: 0.01273885350318471
+Recall/True Positive Rate: 1.0
+Specificity/True Negative Rate: 0.9872611464968153
+Precision/Positive Predictive Value: 0.0
+False Positive Rate: 0.012738853503184714
+
+fight_7.mp4
+Total Frames: 123
+[TRUE NEGATIVE] Frames correctly not predicted: 118
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: []
+[FALSE NEGATIVE] Failed To Predict Anomalies At: [78]
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[2, 5, 8, 15]
+Accuracy Rate: 0.959349593495935
+Error Rate: 0.04065040650406504
+Recall/True Positive Rate: 0.0
+Specificity/True Negative Rate: 0.9672131147540983
+Precision/Positive Predictive Value: 0.0
+False Positive Rate: 0.03278688524590164
+
+normal_2.mp4
+Total Frames: 182
+[TRUE NEGATIVE] Frames correctly not predicted: 179
+[TRUE POSITIVE] Frames Correctly Predicted Anomalies: []
+[FALSE NEGATIVE] Failed To Predict Anomalies At: []
+[FALSE POSITIVES] Wrongly Predicted Anomalies At:[1, 6, 11]
+Accuracy Rate: 0.9835164835164835
+Error Rate: 0.016483516483516536
+Recall/True Positive Rate: 1.0
+Specificity/True Negative Rate: 0.9835164835164835
+Precision/Positive Predictive Value: 0.0
+False Positive Rate: 0.016483516483516484
+
+
+AVERAGE ACCURACY RATE: 0.9342724189996361
+AVERAGE ERROR RATE: 0.06572758100036379
+AVERAGE RECALL: 0.5541666666666667
+AVERAGE SPECIFICITY: 0.938919057457596
+AVERAGE PRECISION: 0.07459172771672772
+AVERAGE FPR: 0.06108094254240369

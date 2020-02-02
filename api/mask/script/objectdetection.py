@@ -10,6 +10,7 @@ import numpy as np
 import tensorflow as tf
 import requests
 import uuid
+import math
 
 """
 This file consists of the major server logic to be performed such as the object detection and anomaly detection algorithms
@@ -266,7 +267,7 @@ def object_detection(file_location, video_id):
     #################################### Setting up parameters ####################################
     frames = []
     seconds = 0.5  # this variable controls the interval between frames being analyzed, i.e. 0.5 -> every 0.5 seconds a frame is analyzed, 2 -> every 2 seconds a frame is analyzed
-    fps = capture.get(cv2.CAP_PROP_FPS)  # Gets the frames per second of video
+    fps = math.ceil(capture.get(cv2.CAP_PROP_FPS))  # Gets the frames per second of video
     multiplier = int(round(fps * seconds))
     success = True
     #################################### Setting up parameters ####################################

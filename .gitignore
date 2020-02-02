@@ -6,4 +6,6 @@ env
 **/node_modules
 **/__pycache_
 tests/videos/
+tests/videos_anomaly_only/
+tests/videos_normal_only/
 tests/mask/mask_rcnn_coco.h5

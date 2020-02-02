@@ -219,7 +219,7 @@ def analyze_video(test_video, test_video_dir):
     # Defining Anomaly Detection Variables
     frames = []
     seconds = 0.5   # this variable controls the interval between frames being analyzed, i.e. 0.5 -> every 0.5 seconds a frame is analyzed, 2 -> every 2 seconds a f                    rame is analyzed 
-    fps = capture.get(cv2.CAP_PROP_FPS) # Gets the frames per second
+    fps = math.ceil(capture.get(cv2.CAP_PROP_FPS)) # Gets the frames per second
     multiplier = fps * seconds
     success = True
 
@@ -299,7 +299,7 @@ def calc_specificity(tn, fp):
 
 def calc_precision(tp, fp):
     if not tp and not fp:
-        return 1.0
+        return 0.0
     return tp/(tp+fp)
 
 def calc_false_positive_rate(tn, fp):
@@ -322,7 +322,7 @@ ALL_RECALL = []
 ALL_SPECIFICITY = []
 ALL_PRECISION = []
 ALL_FPR = []
-
+count = 0
 # Start comparisions and writting 
 with open(log_file_name, "w+") as outfil:
     for video in test_videos:
@@ -384,7 +384,8 @@ with open(log_file_name, "w+") as outfil:
             ALL_PRECISION.append(precision)
             ALL_FPR.append(fpr)
 
-            print("Finished writing to file {}".format(log_file_name))
+            count += 1
+            print("{}/{} done".format(count,len(test_videos)-1))
         except KeyError:
             print("Did not find ground truth for file:{}".format(video_key))
     
